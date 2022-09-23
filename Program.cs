@@ -10,6 +10,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Приветствую Вас в калькуляторе доходов!")
             Console.WriteLine("Введите сумму Вашего месячного дохода в гривнах (используя числовой формат записи)");
             string profit = Console.ReadLine();
             decimal profitInDecimal = Convert.ToDecimal(profit);
