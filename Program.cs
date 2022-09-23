@@ -15,17 +15,8 @@ namespace ConsoleApp1
             decimal profitInDecimal = Convert.ToDecimal(profit);
             decimal singleTaxPercentage = 0.05m;
             decimal singleTax = profitInDecimal * singleTaxPercentage;
-            decimal singleDeposit;
             decimal singleDepositPercentage = 0.22m;
-            // с помощью оператора if  сравниваю доход пользователя с 6500, для корректного вычисления singleDeposit.
-            if (profitInDecimal <= 6500)
-            {
-                singleDeposit = profitInDecimal * singleDepositPercentage;
-            }
-            else
-            {
-                singleDeposit = 6500 * singleDepositPercentage;
-            }
+            decimal singleDeposit = profitInDecimal * singleDepositPercentage;
             decimal profitAfterTaxes = profitInDecimal - singleTax - singleDeposit;
 
             Console.WriteLine("Сумма вашего дохода составляет " + profitInDecimal + "грн");
