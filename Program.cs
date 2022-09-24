@@ -10,14 +10,23 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите сумму Вашего месячного дохода в гривнах (используя числовой формат записи)");
-            string profit = Console.ReadLine();
-            decimal profitInDecimal = Convert.ToDecimal(profit);
             decimal singleTaxPercentage = 0.05m;
-            decimal singleTax = profitInDecimal * singleTaxPercentage;
             decimal singleDepositPercentage = 0.22m;
-            decimal singleDeposit = profitInDecimal * singleDepositPercentage;
-            decimal profitAfterTaxes = profitInDecimal - singleTax - singleDeposit;
+            int minProfit = 6500;
+            string profit; 
+            decimal profitInDecimal;
+            decimal singleTax;
+            decimal singleDeposit;
+            decimal profitAfterTaxes;
+
+            Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
+            Console.WriteLine("Введите сумму Вашего месячного дохода в гривнах (используя числовой формат записи)");
+
+            profit = Console.ReadLine();
+            profitInDecimal = Convert.ToDecimal(profit);
+            singleTax = profitInDecimal * singleTaxPercentage;
+            singleDeposit = minProfit * singleDepositPercentage;
+            profitAfterTaxes = profitInDecimal - singleTax - singleDeposit;
 
             Console.WriteLine("Сумма вашего дохода составляет " + profitInDecimal + "грн");
             Console.WriteLine("Единый налог составит " + singleTax + "грн");
