@@ -24,10 +24,6 @@ namespace ConsoleApp1
             decimal exchangeEUR = 36.01m;
             string currencies;
             decimal incomeAfterExchange;
-            string incomeInUahForUser;
-            string singleTaxForUser;
-            string singleDepositForUser;
-            string profitForUser;
 
             Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
 
@@ -64,15 +60,11 @@ namespace ConsoleApp1
             profit = incomeAfterExchange - singleTax - singleDeposit;
 
             //у меня начали появляться лишние цифры после запятой, нагуглил спецификатор вывода и использовал его
-            incomeInUahForUser = String.Format("{0:f2}",incomeAfterExchange);
-            singleTaxForUser = String.Format("{0:f2}", singleTax);
-            singleDepositForUser = String.Format("{0:f2}",singleDeposit);
-            profitForUser = String.Format("{0:f2}",profit);
 
-            Console.WriteLine("Сумма вашего дохода составляет " + incomeInUahForUser + "грн");
-            Console.WriteLine("Единый налог составит " + singleTaxForUser + "грн");
-            Console.WriteLine("Единый социальный вклад составит " + singleDepositForUser + "грн");
-            Console.WriteLine("Ваш доход за вычетом налогов составит " + profitForUser + "грн");
+            Console.WriteLine("Сумма вашего дохода составляет " + String.Format("{0:f2}",incomeAfterExchange) + "грн");
+            Console.WriteLine("Единый налог составит " + String.Format("{0:f2}", singleTax) + "грн");
+            Console.WriteLine("Единый социальный вклад составит " + String.Format("{0:f2}",singleDeposit) + "грн");
+            Console.WriteLine("Ваш доход за вычетом налогов составит " + String.Format("{0:f2}",profit) + "грн");
 
             Console.ReadKey();
 
