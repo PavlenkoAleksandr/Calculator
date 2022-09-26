@@ -60,11 +60,11 @@ namespace ConsoleApp1
             profit = incomeAfterExchange - singleTax - singleDeposit;
 
             //у меня начали появляться лишние цифры после запятой, нагуглил спецификатор вывода и использовал его
-
-            Console.WriteLine("Сумма вашего дохода составляет " + String.Format("{0:f2}",incomeAfterExchange) + "грн");
-            Console.WriteLine("Единый налог составит " + String.Format("{0:f2}", singleTax) + "грн");
-            Console.WriteLine("Единый социальный вклад составит " + String.Format("{0:f2}",singleDeposit) + "грн");
-            Console.WriteLine("Ваш доход за вычетом налогов составит " + String.Format("{0:f2}",profit) + "грн");
+            string doubleDigit = "{0:f2}";
+            Console.WriteLine("Сумма вашего дохода составляет " + String.Format(doubleDigit, incomeAfterExchange) + "грн");
+            Console.WriteLine("Единый налог составит " + String.Format(doubleDigit, singleTax) + "грн");
+            Console.WriteLine("Единый социальный вклад составит " + String.Format(doubleDigit, singleDeposit) + "грн");
+            Console.WriteLine("Ваш доход за вычетом налогов составит " + String.Format(doubleDigit, profit) + "грн");
 
             Console.ReadKey();
 
