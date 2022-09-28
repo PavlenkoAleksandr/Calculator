@@ -10,6 +10,11 @@ namespace ConsoleApp1
 {
     internal class Program
     {
+        static string FormattoString(decimal value)
+        {
+            return String.Format("{0:f2}", value);
+        }
+
         static void Main(string[] args)
         {
             decimal singleTaxRate = 0.05m;
@@ -23,7 +28,7 @@ namespace ConsoleApp1
             decimal exchangeUSD = 37.17m;
             decimal exchangeEUR = 36.01m;
             string currencies;
-            decimal incomeAfterExchange;
+            decimal incomeAfterExchange = 0;
 
             Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
 
@@ -35,9 +40,22 @@ namespace ConsoleApp1
             income = Console.ReadLine();
             incomeInDecimal = Convert.ToDecimal(income);
 
-            //сравниваю введённую пользователем валюту, если допустил ошибку - возвращаю на этап ввода валюты
+            //сравниваю введённую пользователем валюту c тремя возможными вариантами
 
-            if (currencies.Equals("EUR"))
+            switch (currencies)
+            {
+                case "EUR":
+                    incomeAfterExchange = incomeInDecimal * exchangeEUR;
+                    break;
+                case "USD":
+                    incomeAfterExchange = incomeInDecimal * exchangeUSD;
+                    break;
+                case "UAH":
+                    incomeAfterExchange = incomeInDecimal;
+                    break;
+            }
+
+            /*if (currencies.Equals("EUR"))
             {
                 incomeAfterExchange = incomeInDecimal * exchangeEUR;
             }
@@ -51,21 +69,26 @@ namespace ConsoleApp1
             }
             else
             {
-                Console.WriteLine("Некорректный ввод валюты. Обратите внимание на раскладку и заглавные буквы");
-                goto Beggining;
+                Console.WriteLine("Валюта введена неправильно!");
             }
-           
+            */
+            
             singleTax = incomeAfterExchange * singleTaxRate;
             singleDeposit = minProfit * singleDepositRate;
             profit = incomeAfterExchange - singleTax - singleDeposit;
 
-            //у меня начали появляться лишние цифры после запятой, нагуглил спецификатор вывода и использовал его
-            string doubleDigit = "{0:f2}";
-            Console.WriteLine("Сумма вашего дохода составляет " + String.Format(doubleDigit, incomeAfterExchange) + "грн");
-            Console.WriteLine("Единый налог составит " + String.Format(doubleDigit, singleTax) + "грн");
-            Console.WriteLine("Единый социальный вклад составит " + String.Format(doubleDigit, singleDeposit) + "грн");
-            Console.WriteLine("Ваш доход за вычетом налогов составит " + String.Format(doubleDigit, profit) + "грн");
-
+            if (incomeAfterExchange == 0)
+            {
+                Console.WriteLine("Некорректный ввод данных!");
+            }
+            else
+            {
+            //сделал отдельный метод и вызывал его
+            Console.WriteLine("Сумма вашего дохода составляет " + FormattoString(incomeAfterExchange) + "грн");
+            Console.WriteLine("Единый налог составит " + FormattoString(singleTax) + "грн");
+            Console.WriteLine("Единый социальный вклад составит " + FormattoString(singleDeposit) + "грн");
+            Console.WriteLine("Ваш доход за вычетом налогов составит " + FormattoString(profit) + "грн");
+            }
             Console.ReadKey();
 
         }
