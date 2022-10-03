@@ -10,13 +10,16 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        static string FormattoString(decimal value)
-        {
-            return String.Format("{0:f2}", value);
-        }
+        
 
         static void Main(string[] args)
         {
+            //здесь почему-то ругается, если делаю его private
+            private string FormattoString(decimal value)
+            {
+                return String.Format("{0:f2}", value);
+            }
+
             decimal singleTaxRate = 0.05m;
             decimal singleDepositRate = 0.22m;
             int minProfit = 6500;
@@ -31,8 +34,6 @@ namespace ConsoleApp1
             decimal incomeAfterExchange = 0;
 
             Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
-
-            Beggining:
             Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
             currencies = Console.ReadLine();
 
@@ -55,24 +56,6 @@ namespace ConsoleApp1
                     break;
             }
 
-            /*if (currencies.Equals("EUR"))
-            {
-                incomeAfterExchange = incomeInDecimal * exchangeEUR;
-            }
-            else if (currencies.Equals("USD"))
-            {
-                incomeAfterExchange = incomeInDecimal * exchangeUSD;
-            }
-            else if (currencies.Equals("UAH"))
-            {
-                incomeAfterExchange = incomeInDecimal;
-            }
-            else
-            {
-                Console.WriteLine("Валюта введена неправильно!");
-            }
-            */
-            
             singleTax = incomeAfterExchange * singleTaxRate;
             singleDeposit = minProfit * singleDepositRate;
             profit = incomeAfterExchange - singleTax - singleDeposit;
@@ -83,7 +66,6 @@ namespace ConsoleApp1
             }
             else
             {
-            //сделал отдельный метод и вызывал его
             Console.WriteLine("Сумма вашего дохода составляет " + FormattoString(incomeAfterExchange) + "грн");
             Console.WriteLine("Единый налог составит " + FormattoString(singleTax) + "грн");
             Console.WriteLine("Единый социальный вклад составит " + FormattoString(singleDeposit) + "грн");
