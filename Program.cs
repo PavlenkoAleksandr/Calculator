@@ -19,7 +19,6 @@ namespace ConsoleApp1
             string currencies;
             decimal incomeAfterExchange = 0;
 
-            Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
             ShowBeginning();
             Calculation();
             ShowResult();
@@ -28,6 +27,7 @@ namespace ConsoleApp1
             {
                 string income; 
 
+                Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
                 Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
                 currencies = Console.ReadLine();
 
@@ -74,10 +74,10 @@ namespace ConsoleApp1
 
             void ShowResult()
             {
-                Console.WriteLine("Сумма вашего дохода составляет " + FormattoString(incomeAfterExchange) + "грн");
-                Console.WriteLine("Единый налог составит " + FormattoString(singleTax) + "грн");
-                Console.WriteLine("Единый социальный вклад составит " + FormattoString(singleDeposit) + "грн");
-                Console.WriteLine("Ваш доход за вычетом налогов составит " + FormattoString(profit) + "грн");
+                Console.WriteLine("Сумма вашего дохода составляет " + FormattoString(incomeAfterExchange) + " грн");
+                Console.WriteLine("Единый налог составит " + FormattoString(singleTax) + " грн");
+                Console.WriteLine("Единый социальный вклад составит " + FormattoString(singleDeposit) + " грн");
+                Console.WriteLine("Ваш доход за вычетом налогов составит " + FormattoString(profit) + " грн");
                 Console.ReadKey();
             }
 
