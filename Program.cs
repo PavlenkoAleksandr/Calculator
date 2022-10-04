@@ -12,27 +12,22 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         { 
-            decimal singleTaxRate = 0.05m;
-            decimal singleDepositRate = 0.22m;
-            int minProfit = 6500;
-            string income; 
             decimal incomeInDecimal;
             decimal singleTax;
             decimal singleDeposit;
             decimal profit;
-            decimal exchangeUSD = 37.17m;
-            decimal exchangeEUR = 36.01m;
             string currencies;
             decimal incomeAfterExchange = 0;
 
             Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
             ShowBeginning();
             Calculation();
-
-
+            ShowResult();
 
             void ShowBeginning()
             {
+                string income; 
+
                 Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
                 currencies = Console.ReadLine();
 
@@ -43,6 +38,12 @@ namespace ConsoleApp1
           
             void Calculation()
             {
+                decimal exchangeUSD = 37.17m;
+                decimal exchangeEUR = 36.01m;
+                decimal singleTaxRate = 0.05m;
+                decimal singleDepositRate = 0.22m;
+                int minProfit = 6500;
+
                 switch (currencies)
                 {
                 case "EUR":
@@ -55,21 +56,19 @@ namespace ConsoleApp1
                     incomeAfterExchange = incomeInDecimal;
                     break;
                 }
-
-                singleTax = incomeAfterExchange * singleTaxRate;
-                singleDeposit = minProfit * singleDepositRate;
-                profit = incomeAfterExchange - singleTax - singleDeposit;
-
-                if (incomeAfterExchange == 0)
+                // в случае некорректного ввода валюты пользователем, incomeAfterExchange не примет новое значение и останется равным 0. за счёт этого и построена логика
+                if (incomeAfterExchange != 0)
+                {
+                    singleTax = incomeAfterExchange * singleTaxRate;
+                    singleDeposit = minProfit * singleDepositRate;
+                    profit = incomeAfterExchange - singleTax - singleDeposit;
+                }
+                else
                 {
                     Console.Clear();
                     Console.WriteLine("Некорректный ввод валюты, повторите ещё раз. Обратите внимание на регистр и язык ввода");
                     ShowBeginning();
                     Calculation();
-                }
-                else
-                {
-                    ShowResult();
                 }
             }
 
