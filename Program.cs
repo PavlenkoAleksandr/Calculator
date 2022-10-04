@@ -2,39 +2,89 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ConsoleApp1
 {
     internal class Program
     {
         static void Main(string[] args)
-        {
-            decimal singleTaxPercentage = 0.05m;
-            decimal singleDepositPercentage = 0.22m;
-            int minProfit = 6500;
-            string profit; 
-            decimal profitInDecimal;
+        { 
+            decimal incomeInDecimal;
             decimal singleTax;
             decimal singleDeposit;
-            decimal profitAfterTaxes;
+            decimal profit;
+            string currencies;
+            decimal incomeAfterExchange = 0;
 
-            Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
-            Console.WriteLine("Введите сумму Вашего месячного дохода в гривнах (используя числовой формат записи)");
+            ShowBeginning();
+            Calculation();
+            ShowResult();
 
-            profit = Console.ReadLine();
-            profitInDecimal = Convert.ToDecimal(profit);
-            singleTax = profitInDecimal * singleTaxPercentage;
-            singleDeposit = minProfit * singleDepositPercentage;
-            profitAfterTaxes = profitInDecimal - singleTax - singleDeposit;
+            void ShowBeginning()
+            {
+                string income; 
 
-            Console.WriteLine("Сумма вашего дохода составляет " + profitInDecimal + "грн");
-            Console.WriteLine("Единый налог составит " + singleTax + "грн");
-            Console.WriteLine("Единый социальный вклад составит " + singleDeposit + "грн");
-            Console.WriteLine("Ваш доход за вычетом налогов составит " + profitAfterTaxes + "грн");
+                Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
+                Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
+                currencies = Console.ReadLine();
 
-            Console.ReadKey();
+                Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше(используя числовой формат записи)");
+                income = Console.ReadLine();
+                incomeInDecimal = Convert.ToDecimal(income);
+            }
+          
+            void Calculation()
+            {
+                decimal exchangeUSD = 37.17m;
+                decimal exchangeEUR = 36.01m;
+                decimal singleTaxRate = 0.05m;
+                decimal singleDepositRate = 0.22m;
+                int minProfit = 6500;
 
+                switch (currencies)
+                {
+                case "EUR":
+                    incomeAfterExchange = incomeInDecimal * exchangeEUR;
+                    break;
+                case "USD":
+                    incomeAfterExchange = incomeInDecimal * exchangeUSD;
+                    break;
+                case "UAH":
+                    incomeAfterExchange = incomeInDecimal;
+                    break;
+                }
+                // в случае некорректного ввода валюты пользователем, incomeAfterExchange не примет новое значение и останется равным 0. за счёт этого и построена логика
+                if (incomeAfterExchange != 0)
+                {
+                    singleTax = incomeAfterExchange * singleTaxRate;
+                    singleDeposit = minProfit * singleDepositRate;
+                    profit = incomeAfterExchange - singleTax - singleDeposit;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Некорректный ввод валюты, повторите ещё раз. Обратите внимание на регистр и язык ввода");
+                    ShowBeginning();
+                    Calculation();
+                }
+            }
+
+            void ShowResult()
+            {
+                Console.WriteLine("Сумма вашего дохода составляет " + FormattoString(incomeAfterExchange) + " грн");
+                Console.WriteLine("Единый налог составит " + FormattoString(singleTax) + " грн");
+                Console.WriteLine("Единый социальный вклад составит " + FormattoString(singleDeposit) + " грн");
+                Console.WriteLine("Ваш доход за вычетом налогов составит " + FormattoString(profit) + " грн");
+                Console.ReadKey();
+            }
+
+            string FormattoString(decimal value)
+            {
+                return String.Format("{0:f2}", value);
+            }
         }
     }
 }
