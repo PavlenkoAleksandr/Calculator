@@ -24,21 +24,33 @@ namespace ConsoleApp1
             
             Start();
 
-            /*void ageControl()
+            void ageControl()
             {
                 int dateOfBirth;
                 bool isEighteen;
+                int ageOfUser;
 
                 Console.WriteLine("Добро пожаловать в калькулятор доходов!\nВведите свой год рождения.");
                 dateOfBirth = Convert.ToInt32(Console.ReadLine());
-                int a = DateTime.Today - dateOfBirth;
-                Console.WriteLine($"{a}");
+
+                ageOfUser = Convert.ToInt32(DateTime.Today.Year) - dateOfBirth;
+
+                if (ageOfUser > 17)
+                {
+                    isEighteen = true;
+                }
+                else
+                {
+                    isEighteen = false;
+                    Console.WriteLine("Вы несовершеннолетний, дальнейшая работа калькулятора доходов ограничена. Нажмите ввод(Enter) для выхода.");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
             }
-            */
 
             void Start()
             {
-                //ageControl();
+                ageControl();
                 ShowBeginning();
                 Calculation();
                 ShowResult();
@@ -52,7 +64,7 @@ namespace ConsoleApp1
                 Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
                 currencies = Console.ReadLine();
 
-                Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше(используя числовой формат записи)");
+                Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше (используя числовой формат записи)");
                 income = Console.ReadLine();
                 incomeInDecimal = Convert.ToDecimal(income);
             }
@@ -95,11 +107,12 @@ namespace ConsoleApp1
             void ShowResult()
             {
                 string exitOrCalculateAgain;
+
                 Console.WriteLine($"Сумма вашего дохода составляет {FormattoString(incomeAfterExchange)} грн");
                 Console.WriteLine($"Единый налог составит {FormattoString(singleTax)} грн");
                 Console.WriteLine($"Единый социальный вклад составит {FormattoString(singleDeposit)} грн");
                 Console.WriteLine($"Ваш доход за вычетом налогов составит {FormattoString(profit)} грн");
-                Console.WriteLine("----------------------------------------------------------");
+                Console.WriteLine("-------------------------------------------------------");
                 Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
                 exitOrCalculateAgain = Console.ReadLine();
 
@@ -115,8 +128,9 @@ namespace ConsoleApp1
                 else
                 {
                     Console.Clear();
+                    Console.WriteLine("-------------------------------------------------------");
                     Console.WriteLine("Неизвестная команда, проверьте ввод и попробуйте снова.");
-                    Console.WriteLine("----------------------------------------------------------");
+                    Console.WriteLine("-------------------------------------------------------");
                     ShowResult();
                 }
                 
