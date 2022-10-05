@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,10 +21,29 @@ namespace ConsoleApp1
             string currencies;
             decimal incomeAfterExchange = 0;
 
-            ShowBeginning();
-            Calculation();
-            ShowResult();
+            
+            Start();
 
+            /*void ageControl()
+            {
+                int dateOfBirth;
+                bool isEighteen;
+
+                Console.WriteLine("Добро пожаловать в калькулятор доходов!\nВведите свой год рождения.");
+                dateOfBirth = Convert.ToInt32(Console.ReadLine());
+                int a = DateTime.Today - dateOfBirth;
+                Console.WriteLine($"{a}");
+            }
+            */
+
+            void Start()
+            {
+                //ageControl();
+                ShowBeginning();
+                Calculation();
+                ShowResult();
+            }
+            
             void ShowBeginning()
             {
                 string income; 
@@ -56,8 +77,8 @@ namespace ConsoleApp1
                     incomeAfterExchange = incomeInDecimal;
                     break;
                 }
-                // в случае некорректного ввода валюты пользователем, incomeAfterExchange не примет новое значение и останется равным 0. за счёт этого и построена логика
-                if (incomeAfterExchange != 0)
+                
+                if ((currencies == "EUR") || (currencies == "USD") || (currencies == "UAH"))
                 {
                     singleTax = incomeAfterExchange * singleTaxRate;
                     singleDeposit = minProfit * singleDepositRate;
@@ -67,18 +88,38 @@ namespace ConsoleApp1
                 {
                     Console.Clear();
                     Console.WriteLine("Некорректный ввод валюты, повторите ещё раз. Обратите внимание на регистр и язык ввода");
-                    ShowBeginning();
-                    Calculation();
+                    Start();
                 }
             }
 
             void ShowResult()
             {
-                Console.WriteLine("Сумма вашего дохода составляет " + FormattoString(incomeAfterExchange) + " грн");
-                Console.WriteLine("Единый налог составит " + FormattoString(singleTax) + " грн");
-                Console.WriteLine("Единый социальный вклад составит " + FormattoString(singleDeposit) + " грн");
-                Console.WriteLine("Ваш доход за вычетом налогов составит " + FormattoString(profit) + " грн");
-                Console.ReadKey();
+                string exitOrCalculateAgain;
+                Console.WriteLine($"Сумма вашего дохода составляет {FormattoString(incomeAfterExchange)} грн");
+                Console.WriteLine($"Единый налог составит {FormattoString(singleTax)} грн");
+                Console.WriteLine($"Единый социальный вклад составит {FormattoString(singleDeposit)} грн");
+                Console.WriteLine($"Ваш доход за вычетом налогов составит {FormattoString(profit)} грн");
+                Console.WriteLine("----------------------------------------------------------");
+                Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
+                exitOrCalculateAgain = Console.ReadLine();
+
+                if(exitOrCalculateAgain == "calculate again")
+                {
+                    Console.Clear();
+                    Start();
+                }
+                else if(exitOrCalculateAgain == "exit")
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Неизвестная команда, проверьте ввод и попробуйте снова.");
+                    Console.WriteLine("----------------------------------------------------------");
+                    ShowResult();
+                }
+                
             }
 
             string FormattoString(decimal value)
