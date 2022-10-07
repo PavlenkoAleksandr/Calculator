@@ -21,32 +21,7 @@ namespace ConsoleApp1
             string currencies;
             decimal incomeAfterExchange = 0;
 
-            
             Start();
-
-            void ageControl()
-            {
-                int dateOfBirth;
-                bool isEighteen;
-                int ageOfUser;
-
-                Console.WriteLine("Добро пожаловать в калькулятор доходов!\nВведите свой год рождения.");
-                dateOfBirth = Convert.ToInt32(Console.ReadLine());
-
-                ageOfUser = Convert.ToInt32(DateTime.Today.Year) - dateOfBirth;
-
-                if (ageOfUser > 17)
-                {
-                    isEighteen = true;
-                }
-                else
-                {
-                    isEighteen = false;
-                    Console.WriteLine("Вы несовершеннолетний, дальнейшая работа калькулятора доходов ограничена. Нажмите ввод(Enter) для выхода.");
-                    Console.ReadKey();
-                    Environment.Exit(0);
-                }
-            }
 
             void Start()
             {
@@ -55,12 +30,44 @@ namespace ConsoleApp1
                 Calculation();
                 ShowResult();
             }
+
+            void ageControl()
+            {
+                int dateOfBirth;
+                bool isEighteen;
+                int ageOfUser;
+                int adultAge = 18;
+
+                Console.WriteLine("Добро пожаловать в калькулятор доходов!\nВведите свой год рождения.");
+                dateOfBirth = Convert.ToInt32(Console.ReadLine());
+
+                ageOfUser = Convert.ToInt32(DateTime.Today.Year) - dateOfBirth;
+
+                if (ageOfUser >= adultAge)
+                {
+                    isEighteen = true;
+                }
+                else
+                {
+                    isEighteen = false;
+                }
+
+                if (isEighteen)
+                {
+                    Console.WriteLine("-------------------------------------------------------");
+                }
+                else
+                {
+                    Console.WriteLine("Вы несовершеннолетний, дальнейшая работа калькулятора доходов ограничена. Нажмите ввод(Enter) для выхода.");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+            }
             
             void ShowBeginning()
             {
                 string income; 
 
-                Console.WriteLine("Приветствую Вас в калькуляторе доходов!");
                 Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
                 currencies = Console.ReadLine();
 
@@ -106,7 +113,7 @@ namespace ConsoleApp1
 
             void ShowResult()
             {
-                string exitOrCalculateAgain;
+                string decision;
 
                 Console.WriteLine($"Сумма вашего дохода составляет {FormattoString(incomeAfterExchange)} грн");
                 Console.WriteLine($"Единый налог составит {FormattoString(singleTax)} грн");
@@ -114,14 +121,14 @@ namespace ConsoleApp1
                 Console.WriteLine($"Ваш доход за вычетом налогов составит {FormattoString(profit)} грн");
                 Console.WriteLine("-------------------------------------------------------");
                 Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
-                exitOrCalculateAgain = Console.ReadLine();
+                decision = Console.ReadLine();
 
-                if(exitOrCalculateAgain == "calculate again")
+                if(decision == "calculate again")
                 {
                     Console.Clear();
                     Start();
                 }
-                else if(exitOrCalculateAgain == "exit")
+                else if(decision == "exit")
                 {
                     Environment.Exit(0);
                 }
