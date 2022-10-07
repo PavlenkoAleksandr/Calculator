@@ -15,21 +15,13 @@ namespace ConsoleApp1
         static void Main(string[] args)
         { 
             decimal incomeInDecimal;
-            decimal singleTax;
-            decimal singleDeposit;
-            decimal profit;
+            decimal singleTax = 0;
+            decimal singleDeposit = 0;
+            decimal profit = 0;
             string currencies;
             decimal incomeAfterExchange = 0;
 
-            Start();
-
-            void Start()
-            {
-                ageControl();
-                ShowBeginning();
-                Calculation();
-                ShowResult();
-            }
+            ageControl();
 
             void ageControl()
             {
@@ -55,10 +47,14 @@ namespace ConsoleApp1
                 if (isEighteen)
                 {
                     Console.WriteLine("-------------------------------------------------------");
+                    Console.WriteLine("Совершеннолетие подтверждено. Нажмите ввод (Enter) для продолжения.");
+                    Console.WriteLine("-------------------------------------------------------");
+                    Console.ReadKey();
+                    ShowBeginning();
                 }
                 else
                 {
-                    Console.WriteLine("Вы несовершеннолетний, дальнейшая работа калькулятора доходов ограничена. Нажмите ввод(Enter) для выхода.");
+                    Console.WriteLine("Вы несовершеннолетний, дальнейшая работа калькулятора доходов ограничена. Нажмите ввод (Enter) для выхода.");
                     Console.ReadKey();
                     Environment.Exit(0);
                 }
@@ -74,6 +70,7 @@ namespace ConsoleApp1
                 Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше (используя числовой формат записи)");
                 income = Console.ReadLine();
                 incomeInDecimal = Convert.ToDecimal(income);
+                Calculation();
             }
           
             void Calculation()
@@ -102,12 +99,13 @@ namespace ConsoleApp1
                     singleTax = incomeAfterExchange * singleTaxRate;
                     singleDeposit = minProfit * singleDepositRate;
                     profit = incomeAfterExchange - singleTax - singleDeposit;
+                    ShowResult();
                 }
                 else
                 {
                     Console.Clear();
                     Console.WriteLine("Некорректный ввод валюты, повторите ещё раз. Обратите внимание на регистр и язык ввода");
-                    Start();
+                    ageControl();
                 }
             }
 
@@ -126,7 +124,7 @@ namespace ConsoleApp1
                 if(decision == "calculate again")
                 {
                     Console.Clear();
-                    Start();
+                    ageControl();
                 }
                 else if(decision == "exit")
                 {
