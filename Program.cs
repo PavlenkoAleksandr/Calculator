@@ -22,29 +22,33 @@ namespace ConsoleApp1
         }
 
         static void Main(string[] args)
-        { 
+        {
+            string okInput = "";
+            string userInput;
             int incomeInt = 0;
             decimal singleTax = 0;
             decimal singleDeposit = 0;
             decimal profit = 0;
-            string currencies;
             decimal incomeAfterExchange = 0;
             int dateOfBirth = 0;
+            string currencies;
 
             ageControl();
-            
+
             void ageControl()
             {
+                string date;
                 bool isEighteen;
                 int ageOfUser;
                 int adultAge = 18;
+                int oldestManAlive = 1904;
 
                 Console.WriteLine("Добро пожаловать в калькулятор доходов!\nВведите свой год рождения.");
-                GetUserInput(TypeOfUserInput.year);
-
+                date = GetUserInput(TypeOfUserInput.year);
+                dateOfBirth = Convert.ToInt32(date);
                 ageOfUser = Convert.ToInt32(DateTime.Today.Year) - dateOfBirth;
 
-                if (ageOfUser >= adultAge)
+                if (ageOfUser >= adultAge && dateOfBirth >= oldestManAlive)
                 {
                     isEighteen = true;
                 }
@@ -68,18 +72,18 @@ namespace ConsoleApp1
                     Environment.Exit(0);
                 }
             }
-            
+
             void SelectYearOrMonth()
             {
                 string choice;
                 Console.WriteLine("Выберите интересующий вас калькулятор\n1 - для подсчёта месячного дохода\n2 - для посчёта годового дохода");
                 choice = Console.ReadLine();
 
-                if(choice == "1")
+                if (choice == "1")
                 {
-                    ShowBeginning();
+                    SingleMonthProfit();
                 }
-                else if(choice == "2")
+                else if (choice == "2")
                 {
                     FullYearProfit();
                 }
@@ -91,38 +95,43 @@ namespace ConsoleApp1
                 }
             }
 
-            // не считал и не вычетал налоги, потому что не был уверен в надобности
             void FullYearProfit()
             {
-                string [] month = new string[12] {"январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь","ноябрь","декабрь"}; 
-                int [] partOfYearProfit = new int[12];
-            
                 int fullYearProfit = 0;
-                for(int n = 0; n < partOfYearProfit.Length; n++)
+                SelectCurrency();
+
+                string[] month = new string[12] { "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь" };
+                int[] partOfYearProfit = new int[12];
+
+                for (int n = 0; n < partOfYearProfit.Length; n++)
                 {
+                    string oneMonthIncome;
                     Console.Clear();
                     Console.WriteLine($"Введите ваш доход за {month[n]}");
-                    GetUserInput(TypeOfUserInput.money);
-                    partOfYearProfit[n] = incomeInt;
-                    fullYearProfit = fullYearProfit + partOfYearProfit[n];  
+                    oneMonthIncome = GetUserInput(TypeOfUserInput.money);
+                    partOfYearProfit[n] = Convert.ToInt32(oneMonthIncome);
+                    fullYearProfit += partOfYearProfit[n];
                 }
-                Console.Clear();
-                Console.WriteLine($"Ваш общий годовой доход составляет {fullYearProfit} грн");
-                Console.ReadKey();
-            }
-
-            void ShowBeginning()
-            {
-                string income; 
-
-                Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
-                currencies =  GetUserInput(TypeOfUserInput.currency);
-
-                Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше (используя числовой формат записи)");
-                income = GetUserInput(TypeOfUserInput.money);
+                incomeInt = fullYearProfit;
                 Calculation();
             }
-          
+
+            void SingleMonthProfit()
+            {
+                string fullMonthIncome;
+                SelectCurrency();
+                Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше (используя числовой формат записи)");
+                fullMonthIncome = GetUserInput(TypeOfUserInput.money);
+                incomeInt = Convert.ToInt32(fullMonthIncome);
+                Calculation();
+            }
+
+            void SelectCurrency()
+            {
+                Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
+                currencies = GetUserInput(TypeOfUserInput.currency);
+            }
+
             void Calculation()
             {
                 decimal exchangeUSD = 37.17m;
@@ -133,17 +142,17 @@ namespace ConsoleApp1
 
                 switch (currencies)
                 {
-                case "EUR":
-                    incomeAfterExchange = incomeInt * exchangeEUR;
-                    break;
-                case "USD":
-                    incomeAfterExchange = incomeInt * exchangeUSD;
-                    break;
-                case "UAH":
-                    incomeAfterExchange = incomeInt;
-                    break;
+                    case "EUR":
+                        incomeAfterExchange = incomeInt * exchangeEUR;
+                        break;
+                    case "USD":
+                        incomeAfterExchange = incomeInt * exchangeUSD;
+                        break;
+                    case "UAH":
+                        incomeAfterExchange = incomeInt;
+                        break;
                 }
-                
+
                 singleTax = incomeAfterExchange * singleTaxRate;
                 singleDeposit = minProfit * singleDepositRate;
                 profit = incomeAfterExchange - singleTax - singleDeposit;
@@ -162,30 +171,26 @@ namespace ConsoleApp1
                 Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
                 decision = GetUserInput(TypeOfUserInput.command);
 
-                if(decision == "calculate again")
+                if (decision == "calculate again")
                 {
                     Console.Clear();
                     ageControl();
                 }
-                else if(decision == "exit")
+                else if (decision == "exit")
                 {
                     Environment.Exit(0);
-                }  
+                }
             }
 
             string GetUserInput(TypeOfUserInput type)
             {
-                string okInput = "";
-                string userInput;
-
-                if(type == TypeOfUserInput.command)
+                if (type == TypeOfUserInput.command)
                 {
                     userInput = Console.ReadLine();
 
-                    if((userInput == "exit") || (userInput == "calculate again"))
+                    if ((userInput == "exit") || (userInput == "calculate again"))
                     {
                         okInput = userInput;
-                        
                     }
                     else
                     {
@@ -196,10 +201,11 @@ namespace ConsoleApp1
                         GetUserInput(TypeOfUserInput.command);
                     }
                 }
-                if(type == TypeOfUserInput.currency)
+                else if (type == TypeOfUserInput.currency)
                 {
                     userInput = Console.ReadLine();
-                    if((userInput == "USD") || (userInput == "EUR") || (userInput == "UAH"))
+
+                    if ((userInput == "USD") || (userInput == "EUR") || (userInput == "UAH"))
                     {
                         okInput = userInput;
                     }
@@ -207,27 +213,36 @@ namespace ConsoleApp1
                     {
                         Console.Clear();
                         Console.WriteLine("Некорректный ввод валюты, повторите ещё раз. Обратите внимание на регистр и язык ввода");
-                        ShowBeginning();
-                    }      
+                        Console.WriteLine("USD - в долларах, EUR - в евро, UAH - в гривне");
+                        GetUserInput(TypeOfUserInput.currency);
+                    }
                 }
-                if(type == TypeOfUserInput.money)
+                else if (type == TypeOfUserInput.money)
                 {
                     userInput = Console.ReadLine();
                     bool isNumber = int.TryParse(userInput, out incomeInt);
-                    
-                    if (isNumber == false)
+
+                    if (isNumber == true)
                     {
-                        Console.Clear();
-                        Console.WriteLine("Допущена ошибка при вводе месячного дохода. Повторите попытку");
+                        okInput = userInput;
+                    }
+                    else
+                    {
+                        //Console.Clear();
+                        Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
                         GetUserInput(TypeOfUserInput.money);
                     }
                 }
-                if(type == TypeOfUserInput.year)
+                else if (type == TypeOfUserInput.year)
                 {
                     userInput = Console.ReadLine();
                     bool isNumber = int.TryParse(userInput, out dateOfBirth);
 
-                    if (isNumber == false)
+                    if (isNumber == true)
+                    {
+                        okInput = userInput;
+                    }
+                    else
                     {
                         Console.Clear();
                         Console.WriteLine("Допущена ошибка при вводе года рождения. Повторите попытку");
