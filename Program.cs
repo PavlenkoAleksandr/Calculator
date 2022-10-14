@@ -40,8 +40,8 @@ namespace ConsoleApp1
                 string date;
                 bool isEighteen;
                 int ageOfUser;
-                int adultAge = 18;
-                int oldestManAlive = 1904;
+                const int adultAge = 18;
+                const int oldestManAlive = 1904;
 
                 Console.WriteLine("Добро пожаловать в калькулятор доходов!\nВведите свой год рождения.");
                 date = GetUserInput(TypeOfUserInput.year);
@@ -134,11 +134,11 @@ namespace ConsoleApp1
 
             void Calculation()
             {
-                decimal exchangeUSD = 37.17m;
-                decimal exchangeEUR = 36.01m;
-                decimal singleTaxRate = 0.05m;
-                decimal singleDepositRate = 0.22m;
-                int minProfit = 6500;
+                const decimal exchangeUSD = 37.17m;
+                const decimal exchangeEUR = 36.01m;
+                const decimal singleTaxRate = 0.05m;
+                const decimal singleDepositRate = 0.22m;
+                const int minProfit = 6500;
 
                 switch (currencies)
                 {
