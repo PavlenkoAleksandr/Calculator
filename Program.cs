@@ -23,14 +23,13 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            string okInput = "";
-            string userInput;
+
             int incomeInt = 0;
             decimal singleTax = 0;
             decimal singleDeposit = 0;
             decimal profit = 0;
             decimal incomeAfterExchange = 0;
-            int dateOfBirth = 0;
+            int dateOfBirth;
             string currencies;
 
             ageControl();
@@ -163,6 +162,7 @@ namespace ConsoleApp1
             {
                 string decision;
 
+                Console.WriteLine("-------------------------------------------------------");
                 Console.WriteLine($"Сумма вашего дохода составляет {FormattoString(incomeAfterExchange)} грн");
                 Console.WriteLine($"Единый налог составит {FormattoString(singleTax)} грн");
                 Console.WriteLine($"Единый социальный вклад составит {FormattoString(singleDeposit)} грн");
@@ -184,13 +184,16 @@ namespace ConsoleApp1
 
             string GetUserInput(TypeOfUserInput type)
             {
+                string checkedInput = "";
+                string currentInput;
+
+                currentInput = Console.ReadLine();
+
                 if (type == TypeOfUserInput.command)
                 {
-                    userInput = Console.ReadLine();
-
-                    if ((userInput == "exit") || (userInput == "calculate again"))
+                    if ((currentInput == "exit") || (currentInput == "calculate again"))
                     {
-                        okInput = userInput;
+                        checkedInput = currentInput;
                     }
                     else
                     {
@@ -198,58 +201,55 @@ namespace ConsoleApp1
                         Console.WriteLine("-------------------------------------------------------");
                         Console.WriteLine("Неизвестная команда, проверьте ввод и попробуйте снова.");
                         Console.WriteLine("-------------------------------------------------------");
-                        GetUserInput(TypeOfUserInput.command);
+                        Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
+                        checkedInput = GetUserInput(TypeOfUserInput.command);
                     }
                 }
                 else if (type == TypeOfUserInput.currency)
                 {
-                    userInput = Console.ReadLine();
-
-                    if ((userInput == "USD") || (userInput == "EUR") || (userInput == "UAH"))
+                    if ((currentInput == "USD") || (currentInput == "EUR") || (currentInput == "UAH"))
                     {
-                        okInput = userInput;
+                        checkedInput = currentInput;
                     }
                     else
                     {
                         Console.Clear();
                         Console.WriteLine("Некорректный ввод валюты, повторите ещё раз. Обратите внимание на регистр и язык ввода");
                         Console.WriteLine("USD - в долларах, EUR - в евро, UAH - в гривне");
-                        GetUserInput(TypeOfUserInput.currency);
+                        checkedInput = GetUserInput(TypeOfUserInput.currency);
                     }
                 }
                 else if (type == TypeOfUserInput.money)
                 {
-                    userInput = Console.ReadLine();
-                    bool isNumber = int.TryParse(userInput, out incomeInt);
+                    bool isNumber = int.TryParse(currentInput, out incomeInt);
 
-                    if (isNumber == true)
+                    if (isNumber)
                     {
-                        okInput = userInput;
+                        checkedInput = currentInput;
                     }
                     else
                     {
                         //Console.Clear();
                         Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
-                        GetUserInput(TypeOfUserInput.money);
+                        checkedInput = GetUserInput(TypeOfUserInput.money);
                     }
                 }
                 else if (type == TypeOfUserInput.year)
                 {
-                    userInput = Console.ReadLine();
-                    bool isNumber = int.TryParse(userInput, out dateOfBirth);
+                    bool isNumber = int.TryParse(currentInput, out dateOfBirth);
 
-                    if (isNumber == true)
+                    if (isNumber)
                     {
-                        okInput = userInput;
+                        checkedInput = currentInput;
                     }
                     else
                     {
                         Console.Clear();
                         Console.WriteLine("Допущена ошибка при вводе года рождения. Повторите попытку");
-                        GetUserInput(TypeOfUserInput.year);
+                        checkedInput = GetUserInput(TypeOfUserInput.year);
                     }
                 }
-                return okInput;
+                return checkedInput;
             }
 
             string FormattoString(decimal value)
