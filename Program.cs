@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Globalization;
 
 namespace ConsoleApp1
 {
@@ -23,14 +24,23 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-
-            int incomeInt = 0;
+            decimal incomeDecimal = 0;
             decimal singleTax = 0;
             decimal singleDeposit = 0;
             decimal profit = 0;
             decimal incomeAfterExchange = 0;
             int dateOfBirth;
             string currencies;
+
+            NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
+            {
+                NumberDecimalSeparator = "."
+            };
+
+            NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
+            {
+                NumberDecimalSeparator = ","
+            };
 
             ageControl();
 
@@ -96,11 +106,11 @@ namespace ConsoleApp1
 
             void FullYearProfit()
             {
-                int fullYearProfit = 0;
+                decimal fullYearProfit = 0;
                 SelectCurrency();
 
                 string[] month = new string[12] { "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь" };
-                int[] partOfYearProfit = new int[12];
+                decimal[] partOfYearProfit = new decimal[12];
 
                 for (int n = 0; n < partOfYearProfit.Length; n++)
                 {
@@ -108,10 +118,23 @@ namespace ConsoleApp1
                     Console.Clear();
                     Console.WriteLine($"Введите ваш доход за {month[n]}");
                     oneMonthIncome = GetUserInput(TypeOfUserInput.money);
-                    partOfYearProfit[n] = Convert.ToInt32(oneMonthIncome);
+
+                    if (oneMonthIncome.Contains("."))
+                    {
+                        partOfYearProfit[n] = Convert.ToDecimal(oneMonthIncome, DotDecimalSeparator);
+                    }
+                    else if (oneMonthIncome.Contains(","))
+                    {
+                        partOfYearProfit[n] = Convert.ToDecimal(oneMonthIncome, CommaDecimalSeparator);
+                    }
+                    else
+                    {
+                        partOfYearProfit[n] = Convert.ToDecimal(oneMonthIncome);
+                    }
+
                     fullYearProfit += partOfYearProfit[n];
                 }
-                incomeInt = fullYearProfit;
+                incomeDecimal = fullYearProfit;
                 Calculation();
             }
 
@@ -121,7 +144,19 @@ namespace ConsoleApp1
                 SelectCurrency();
                 Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше (используя числовой формат записи)");
                 fullMonthIncome = GetUserInput(TypeOfUserInput.money);
-                incomeInt = Convert.ToInt32(fullMonthIncome);
+                if (fullMonthIncome.Contains("."))
+                {
+                    incomeDecimal = Convert.ToDecimal(fullMonthIncome, DotDecimalSeparator);
+                }
+                else if (fullMonthIncome.Contains(","))
+                {
+                    incomeDecimal = Convert.ToDecimal(fullMonthIncome, CommaDecimalSeparator);
+                }
+                else
+                {
+                    incomeDecimal = Convert.ToDecimal(fullMonthIncome);
+                }
+                
                 Calculation();
             }
 
@@ -142,13 +177,13 @@ namespace ConsoleApp1
                 switch (currencies)
                 {
                     case "EUR":
-                        incomeAfterExchange = incomeInt * exchangeEUR;
+                        incomeAfterExchange = incomeDecimal * exchangeEUR;
                         break;
                     case "USD":
-                        incomeAfterExchange = incomeInt * exchangeUSD;
+                        incomeAfterExchange = incomeDecimal * exchangeUSD;
                         break;
                     case "UAH":
-                        incomeAfterExchange = incomeInt;
+                        incomeAfterExchange = incomeDecimal;
                         break;
                 }
 
@@ -162,6 +197,8 @@ namespace ConsoleApp1
             {
                 string decision;
 
+                Console.Clear();
+                Console.WriteLine($"Вы ввели общую сумму {incomeDecimal} {currencies}");
                 Console.WriteLine("-------------------------------------------------------");
                 Console.WriteLine($"Сумма вашего дохода составляет {FormattoString(incomeAfterExchange)} грн");
                 Console.WriteLine($"Единый налог составит {FormattoString(singleTax)} грн");
@@ -205,7 +242,8 @@ namespace ConsoleApp1
                         checkedInput = GetUserInput(TypeOfUserInput.command);
                     }
                 }
-                else if (type == TypeOfUserInput.currency)
+
+                if (type == TypeOfUserInput.currency)
                 {
                     if ((currentInput == "USD") || (currentInput == "EUR") || (currentInput == "UAH"))
                     {
@@ -219,22 +257,64 @@ namespace ConsoleApp1
                         checkedInput = GetUserInput(TypeOfUserInput.currency);
                     }
                 }
-                else if (type == TypeOfUserInput.money)
-                {
-                    bool isNumber = int.TryParse(currentInput, out incomeInt);
 
-                    if (isNumber)
+                if (type == TypeOfUserInput.money)
+                {
+                    bool isNumber = decimal.TryParse(currentInput, out incomeDecimal);
+                    bool isDot = currentInput.Contains(".");
+                    bool isComma = currentInput.Contains(",");
+                    bool isLetter = currentInput.Any(Char.IsLetter);
+
+                    if (isComma && isDot)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
+                        checkedInput = GetUserInput(TypeOfUserInput.money);
+                    }
+                    else if (isNumber)
                     {
                         checkedInput = currentInput;
                     }
+                    else if(!isLetter && isDot)
+                    {
+                        int numberOfDots = currentInput.Count(x => x == '.');
+
+                        if (numberOfDots > 1)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
+                            checkedInput = GetUserInput(TypeOfUserInput.money);
+                        }
+                        else
+                        {
+                            checkedInput = currentInput;
+                        }
+                        
+                    }
+                    else if (!isLetter && isComma)
+                    {
+                        int numberOfCommas = currentInput.Count(x => x == ',');
+
+                        if (numberOfCommas > 1)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
+                            checkedInput = GetUserInput(TypeOfUserInput.money);
+                        }
+                        else
+                        {
+                            checkedInput = currentInput;
+                        }
+                    }
                     else
                     {
-                        //Console.Clear();
+                        Console.Clear();
                         Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
                         checkedInput = GetUserInput(TypeOfUserInput.money);
                     }
                 }
-                else if (type == TypeOfUserInput.year)
+
+                if (type == TypeOfUserInput.year)
                 {
                     bool isNumber = int.TryParse(currentInput, out dateOfBirth);
 
