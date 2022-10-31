@@ -27,6 +27,7 @@ namespace ConsoleApp1
             }
             else if (mainchoice == "3")
             {
+                Console.Clear();
                 var taxCalculator = new TaxCalculator();
             }
             else
