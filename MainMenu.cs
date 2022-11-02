@@ -8,7 +8,7 @@ namespace ConsoleApp1
 {
     class MainMenu
     {
-        public MainMenu()
+        public void ShowMenu()
         {
             Console.WriteLine("Для выбора приложения введите цифру, которая соответствует нужному пункту в меню.\n1.Простой калькулятор\n2.Калькулятор возраста\n3.Калькулятор налогов");
             string mainchoice = Console.ReadLine();
@@ -28,13 +28,14 @@ namespace ConsoleApp1
             else if (mainchoice == "3")
             {
                 Console.Clear();
-                var taxCalculator = new TaxCalculator();
+                TaxCalculator taxCalculator = new TaxCalculator();
+                taxCalculator.Show();
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("------------------------------\nНе удалось выбрать калькулятор\n------------------------------");
-                MainMenu mainMenu = new MainMenu();
+                ShowMenu();
             }
         }
     }

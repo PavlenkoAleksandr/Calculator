@@ -9,7 +9,7 @@ namespace ConsoleApp1
 {
     class TaxCalculator
     {
-        public TaxCalculator()
+        public void Show()
         {
             ageControl();
         }
