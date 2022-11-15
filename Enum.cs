@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    internal class Enum
+    public enum TypeOfUserInput
     {
-        public enum TypeOfUserInput
-        {
-            command,
-            currency,
-            money,
-            year
-        }
+        command,
+        currency,
+        money,
+        year,
+        operation,
+        number
     }
 }

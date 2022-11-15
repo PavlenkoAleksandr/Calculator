@@ -9,47 +9,56 @@ namespace ConsoleApp1
 {
     class UserInput
     {
-        //разобраться с геттерами и сеттерами
         private string checkedInput;
         private string currentInput;
 
         public string GetUserInput(bool showWarning = true)
         {
             currentInput = Console.ReadLine();
-
-            if (currentInput == null && showWarning)
+            if (showWarning)
             {
-                ShowWarning();
-                GetUserInput(showWarning);
+                if (String.IsNullOrWhiteSpace(currentInput))
+                {
+                    ShowWarning();
+                    checkedInput = GetUserInput(showWarning);
+                }
+                else
+                {
+                    checkedInput = currentInput;
+                }  
             }
-            else if (currentInput == null)
+            else if (!showWarning)
             {
-                Console.WriteLine("Пустой ввод!");
-                GetUserInput(showWarning);
+                if (String.IsNullOrWhiteSpace(currentInput))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Получен пустой ввод, повторите попытку.");
+                    checkedInput = GetUserInput(showWarning);
+                }
+                else
+                {
+                    checkedInput = currentInput;
+                }
             }
-            else if (currentInput != null)
-            {
-                checkedInput = currentInput;
-            }
+            
 
             return checkedInput;
         }
-
-        public string GetUserInput(Enum.TypeOfUserInput type, bool showWarning = true)
+        
+        public string GetUserInput(TypeOfUserInput type, bool showWarning = true)
         {
-            currentInput = Console.ReadLine();
+            currentInput = GetUserInput(showWarning);
 
-            if (type == Enum.TypeOfUserInput.command)
+            if (type == TypeOfUserInput.command)
             {
-                if ((currentInput == "exit") || (currentInput == "calculate again"))
+                if ((currentInput == "exit") || (currentInput == "calculate again") || (currentInput == "return"))
                 {
                     checkedInput = currentInput;
                 }
                 else if (showWarning)
                 {
                     ShowWarning();
-                    Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
-                    GetUserInput(Enum.TypeOfUserInput.command, showWarning);
+                    checkedInput = GetUserInput(TypeOfUserInput.command, showWarning);
                 }
                 else
                 {
@@ -57,12 +66,11 @@ namespace ConsoleApp1
                     Console.WriteLine("-------------------------------------------------------");
                     Console.WriteLine("Неизвестная команда, проверьте ввод и попробуйте снова.");
                     Console.WriteLine("-------------------------------------------------------");
-                    Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
-                    checkedInput = GetUserInput(Enum.TypeOfUserInput.command);
+                    checkedInput = GetUserInput(TypeOfUserInput.command);
                 }
             }
 
-            if (type == Enum.TypeOfUserInput.currency)
+            if (type == TypeOfUserInput.currency)
             {
                 if ((currentInput == "USD") || (currentInput == "EUR") || (currentInput == "UAH"))
                 {
@@ -72,18 +80,18 @@ namespace ConsoleApp1
                 {
                     ShowWarning();
                     Console.WriteLine("USD - в долларах, EUR - в евро, UAH - в гривне");
-                    GetUserInput(Enum.TypeOfUserInput.currency, showWarning);
+                    GetUserInput(TypeOfUserInput.currency, showWarning);
                 }
                 else
                 {
                     Console.Clear();
                     Console.WriteLine("Некорректный ввод валюты, повторите ещё раз. Обратите внимание на регистр и язык ввода");
                     Console.WriteLine("USD - в долларах, EUR - в евро, UAH - в гривне");
-                    checkedInput = GetUserInput(Enum.TypeOfUserInput.currency);
+                    checkedInput = GetUserInput(TypeOfUserInput.currency);
                 }
             }
 
-            if (type == Enum.TypeOfUserInput.money)
+            if (type == TypeOfUserInput.money || type == TypeOfUserInput.number)
             {
                 decimal income;
                 bool isNumber = decimal.TryParse(currentInput, out income);
@@ -91,12 +99,12 @@ namespace ConsoleApp1
                 bool isComma = currentInput.Contains(",");
                 bool isLetter = currentInput.Any(Char.IsLetter);
 
-                if(showWarning == true)
+                if(showWarning)
                 {
                     if (isComma && isDot)
                     {
                         ShowWarning();
-                        checkedInput = GetUserInput(Enum.TypeOfUserInput.money, showWarning);
+                        checkedInput = GetUserInput(TypeOfUserInput.money, showWarning);
                     }
                     else if (isNumber)
                     {
@@ -109,7 +117,7 @@ namespace ConsoleApp1
                         if (numberOfDots > 1)
                         {
                             ShowWarning();
-                            checkedInput = GetUserInput(Enum.TypeOfUserInput.money, showWarning);
+                            checkedInput = GetUserInput(TypeOfUserInput.money, showWarning);
                         }
                         else
                         {
@@ -123,7 +131,7 @@ namespace ConsoleApp1
                         if (numberOfCommas > 1)
                         {
                             ShowWarning();
-                            checkedInput = GetUserInput(Enum.TypeOfUserInput.money, showWarning);
+                            checkedInput = GetUserInput(TypeOfUserInput.money, showWarning);
                         }
                         else
                         {
@@ -133,17 +141,16 @@ namespace ConsoleApp1
                     else
                     {
                         ShowWarning();
-                        checkedInput = GetUserInput(Enum.TypeOfUserInput.money, showWarning);
+                        checkedInput = GetUserInput(TypeOfUserInput.money, showWarning);
                     }
                 }
-
-                if(showWarning == false)
+                else if (!showWarning)
                 {
                     if (isComma && isDot)
                     {
                         Console.Clear();
-                        Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
-                        checkedInput = GetUserInput(Enum.TypeOfUserInput.money);
+                        Console.WriteLine("Допущена ошибка при вводе. Повторите попытку");
+                        checkedInput = GetUserInput(TypeOfUserInput.money);
                     }
                     else if (isNumber)
                     {
@@ -156,8 +163,8 @@ namespace ConsoleApp1
                         if (numberOfDots > 1)
                         {
                             Console.Clear();
-                            Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
-                            checkedInput = GetUserInput(Enum.TypeOfUserInput.money);
+                            Console.WriteLine("Допущена ошибка при вводе. Повторите попытку");
+                            checkedInput = GetUserInput(TypeOfUserInput.money);
                         }
                         else
                         {
@@ -171,8 +178,8 @@ namespace ConsoleApp1
                         if (numberOfCommas > 1)
                         {
                             Console.Clear();
-                            Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
-                            checkedInput = GetUserInput(Enum.TypeOfUserInput.money);
+                            Console.WriteLine("Допущена ошибка при вводе. Повторите попытку");
+                            checkedInput = GetUserInput(TypeOfUserInput.money);
                         }
                         else
                         {
@@ -182,14 +189,14 @@ namespace ConsoleApp1
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine("Допущена ошибка при вводе суммы дохода. Повторите попытку");
-                        checkedInput = GetUserInput(Enum.TypeOfUserInput.money);
+                        Console.WriteLine("Допущена ошибка при вводе. Повторите попытку");
+                        checkedInput = GetUserInput(TypeOfUserInput.money);
                     }
                 }
-                
+
             }
 
-            if (type == Enum.TypeOfUserInput.year)
+            if (type == TypeOfUserInput.year)
             {
                 int date;
                 bool isNumber = int.TryParse(currentInput, out date);
@@ -201,15 +208,39 @@ namespace ConsoleApp1
                 else if (showWarning)
                 {
                     ShowWarning();
-                    checkedInput = GetUserInput(Enum.TypeOfUserInput.year, showWarning);
+                    checkedInput = GetUserInput(TypeOfUserInput.year, showWarning);
                 }
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine("Допущена ошибка при вводе года рождения. Повторите попытку");
-                    checkedInput = GetUserInput(Enum.TypeOfUserInput.year);
+                    Console.WriteLine("Допущена ошибка при вводе. Повторите попытку");
+                    checkedInput = GetUserInput(TypeOfUserInput.year);
                 }
             }
+
+            if (type == TypeOfUserInput.operation)
+            {
+                string[] operations = new string[] {"+", "-", "/", "*", "%"};
+
+                for (int i= 0; i < operations.Length; i++)
+                {
+                    if(operations[i].Contains(currentInput))
+                    {
+                        checkedInput = currentInput;
+                        break;
+                    }
+                    else if (!operations[i].Contains(currentInput) && i == operations.Length - 1 && showWarning)
+                    {
+                        ShowWarning();
+                        checkedInput = GetUserInput(TypeOfUserInput.operation);
+                    }
+                    else if(!operations[i].Contains(currentInput) && i == operations.Length - 1 && !showWarning)
+                    {
+                        checkedInput = GetUserInput(TypeOfUserInput.operation);
+                    }
+                } 
+            }
+
             return checkedInput;
         }
 

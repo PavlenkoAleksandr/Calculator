@@ -14,15 +14,13 @@ namespace ConsoleApp1
         private decimal singleDeposit = 0;
         private decimal profit = 0;
         private decimal incomeAfterExchange = 0;
-        private int dateOfBirth;
         private string currencies;
 
         UserInput userInput = new UserInput();
 
         public void Show()
         {
-
-            ageControl();
+            SelectYearOrMonth();
         }
 
         NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
@@ -35,48 +33,11 @@ namespace ConsoleApp1
             NumberDecimalSeparator = ","
         };
 
-        private void ageControl()
-        {
-            string date;
-            bool isEighteen;
-            int ageOfUser;
-            const int adultAge = 18;
-            const int oldestManAlive = 1904;
-
-            Console.WriteLine("Добро пожаловать в калькулятор доходов!\nВведите свой год рождения.");
-            date = userInput.GetUserInput(Enum.TypeOfUserInput.year);
-            dateOfBirth = Convert.ToInt32(date);
-            ageOfUser = Convert.ToInt32(DateTime.Today.Year) - dateOfBirth;
-
-            if (ageOfUser >= adultAge && dateOfBirth >= oldestManAlive)
-            {
-                isEighteen = true;
-            }
-            else
-            {
-                isEighteen = false;
-            }
-
-            if (isEighteen)
-            {
-                Console.Clear();
-                Console.WriteLine("-------------------------------------------------------");
-                Console.WriteLine("Совершеннолетие подтверждено. Нажмите ввод (Enter) для продолжения.");
-                Console.WriteLine("-------------------------------------------------------");
-                Console.ReadKey();
-                SelectYearOrMonth();
-            }
-            else
-            {
-                Console.WriteLine("Вы несовершеннолетний, дальнейшая работа калькулятора доходов ограничена. Нажмите ввод (Enter) для выхода.");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
-        }
-
         private void SelectYearOrMonth()
         {
             string choice;
+
+            Console.Clear();
             Console.WriteLine("Выберите интересующий вас калькулятор\n1 - для подсчёта месячного дохода\n2 - для посчёта годового дохода");
             choice = Console.ReadLine();
 
@@ -109,7 +70,7 @@ namespace ConsoleApp1
                 string oneMonthIncome;
                 Console.Clear();
                 Console.WriteLine($"Введите ваш доход за {month[n]}");
-                oneMonthIncome = userInput.GetUserInput(Enum.TypeOfUserInput.money);
+                oneMonthIncome = userInput.GetUserInput(TypeOfUserInput.money);
 
                 if (oneMonthIncome.Contains("."))
                 {
@@ -134,8 +95,9 @@ namespace ConsoleApp1
         {
             string fullMonthIncome;
             SelectCurrency();
+            Console.Clear();
             Console.WriteLine("Введите сумму Вашего месячного дохода в валюте, которую указали выше (используя числовой формат записи)");
-            fullMonthIncome = userInput.GetUserInput(Enum.TypeOfUserInput.money);
+            fullMonthIncome = userInput.GetUserInput(TypeOfUserInput.money);
             if (fullMonthIncome.Contains("."))
             {
                 incomeDecimal = Convert.ToDecimal(fullMonthIncome, DotDecimalSeparator);
@@ -154,8 +116,9 @@ namespace ConsoleApp1
 
         private void SelectCurrency()
         {
+            Console.Clear();
             Console.WriteLine("Введите, пожалуйста, валюту в которой получаете доход\nUSD - в долларах, EUR - в евро, UAH - в гривне");
-            currencies = userInput.GetUserInput(Enum.TypeOfUserInput.currency);
+            currencies = userInput.GetUserInput(TypeOfUserInput.currency);
         }
 
         private void Calculation()
@@ -197,17 +160,23 @@ namespace ConsoleApp1
             Console.WriteLine($"Единый социальный вклад:       {FormattoString(singleDeposit)} грн");
             Console.WriteLine($"Ваш доход за вычетом налогов:  {FormattoString(profit)} грн");
             Console.WriteLine("-------------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"");
-            decision = userInput.GetUserInput(Enum.TypeOfUserInput.command);
+            Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
+            decision = userInput.GetUserInput(TypeOfUserInput.command);
 
             if (decision == "calculate again")
             {
                 Console.Clear();
-                ageControl();
+                SelectYearOrMonth();
             }
             else if (decision == "exit")
             {
                 Environment.Exit(0);
+            }
+            else if(decision == "return")
+            {
+                Console.Clear();
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.ShowMenu();
             }
         }
 
