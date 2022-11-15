@@ -10,6 +10,14 @@ namespace ConsoleApp1
     {
         UserInput userInput = new UserInput();
 
+        public void ShowMenu()
+        {
+            Console.WriteLine("Добро пожаловать в универсальный калькулятор!");
+
+            AgeControl();
+            MenuSelection();
+        }
+
         private void AgeControl()
         {
             string date;
@@ -44,19 +52,10 @@ namespace ConsoleApp1
             }
         }
 
-        public void ShowMenu()
-        {
-            Console.WriteLine("Добро пожаловать в универсальный калькулятор!");
-
-            AgeControl();
-            MenuSelection();
-        }
-
         private void MenuSelection()
         {
             string decision;
 
-            //Console.Clear();
             Console.WriteLine("Для выбора приложения введите цифру, которая соответствует нужному пункту в меню.\n1.Простой калькулятор\n2.Калькулятор возраста\n3.Калькулятор налогов");
 
             string mainchoice = userInput.GetUserInput(TypeOfUserInput.number);
