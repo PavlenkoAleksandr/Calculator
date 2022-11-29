@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgeControl.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="SimpleCalculator.cs" />

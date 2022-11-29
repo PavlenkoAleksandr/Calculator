@@ -41,7 +41,6 @@ namespace ConsoleApp1
                 }
             }
             
-
             return checkedInput;
         }
         

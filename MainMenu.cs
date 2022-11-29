@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Cache;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,50 +10,18 @@ namespace ConsoleApp1
     class MainMenu
     {
         UserInput userInput = new UserInput();
+        AgeControl ageControl = new AgeControl();
 
         public void ShowMenu()
         {
             Console.WriteLine("Добро пожаловать в универсальный калькулятор!");
 
-            AgeControl();
+            ageControl.ShowAgeControl();
+            Console.Clear();
             MenuSelection();
         }
 
-        private void AgeControl()
-        {
-            string date;
-            bool isEighteen;
-            int ageOfUser;
-            int dateOfBirth;
-            const int adultAge = 18;
-            const int oldestManAlive = 1904;
-
-            Console.WriteLine("--------------------------");
-            Console.WriteLine("Введите свой год рождения.");
-            Console.WriteLine("--------------------------");
-            date = userInput.GetUserInput(TypeOfUserInput.year);
-            dateOfBirth = Convert.ToInt32(date);
-            ageOfUser = Convert.ToInt32(DateTime.Today.Year) - dateOfBirth;
-
-            if (ageOfUser >= adultAge && dateOfBirth >= oldestManAlive)
-            {
-                isEighteen = true;
-            }
-            else
-            {
-                isEighteen = false;
-            }
-
-            if (!isEighteen)
-            {
-                Console.Clear();
-                Console.WriteLine("Дальнейшая работа программы ограничена. Нажмите ввод (Enter) для выхода.");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
-        }
-
-        private void MenuSelection()
+        public void MenuSelection()
         {
             string decision;
 

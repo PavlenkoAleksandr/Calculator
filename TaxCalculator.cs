@@ -39,7 +39,7 @@ namespace ConsoleApp1
 
             Console.Clear();
             Console.WriteLine("Выберите интересующий вас калькулятор\n1 - для подсчёта месячного дохода\n2 - для посчёта годового дохода");
-            choice = Console.ReadLine();
+            choice = userInput.GetUserInput(TypeOfUserInput.number);
 
             if (choice == "1")
             {
@@ -53,6 +53,7 @@ namespace ConsoleApp1
             {
                 Console.Clear();
                 Console.WriteLine("Калькулятор не выбран, попробуйте снова");
+                Console.ReadLine();
                 SelectYearOrMonth();
             }
         }
@@ -172,11 +173,11 @@ namespace ConsoleApp1
             {
                 Environment.Exit(0);
             }
-            else if(decision == "return")
+            else if (decision == "return")
             {
                 Console.Clear();
                 MainMenu mainMenu = new MainMenu();
-                mainMenu.ShowMenu();
+                mainMenu.MenuSelection();
             }
         }
 

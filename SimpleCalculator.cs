@@ -54,8 +54,65 @@ namespace ConsoleApp1
         private void Calculation()
         {
             int hundredPercent = 100;
+
+            UniversalDecimalSeparator();
+
+            if (operation == "+")
+            {
+                result = numberOne + numberTwo;
+                Console.WriteLine($"{numberOne} + {numberTwo} = {FormattoString(result)}");
+            }
+            else if (operation == "-")
+            {
+                result = numberOne - numberTwo;
+                Console.WriteLine($"{numberOne} - {numberTwo} = {FormattoString(result)}");
+            }
+            else if (operation == "/")
+            {
+                result = numberOne / numberTwo;
+                Console.WriteLine($"{numberOne} / {numberTwo} = {FormattoString(result)}");
+            }
+            else if (operation == "*")
+            {
+                result = numberOne * numberTwo;
+                Console.WriteLine($"{numberOne} * {numberTwo} = {FormattoString(result)}");
+            }
+            else if (operation == "%")
+            {
+                result = numberOne / numberTwo * hundredPercent;
+                Console.WriteLine($"{numberOne} составляет {FormattoString(result)}% от числа {numberTwo}");
+            }
+
+            Decision();
+        }
+
+        private void Decision()
+        {
             string decision;
 
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine("Для повторного подсчёта введите \"calculate again\"\nДля закрытия калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
+            decision = userInput.GetUserInput(TypeOfUserInput.command);
+
+            if (decision == "calculate again")
+            {
+                Console.Clear();
+                Show();
+            }
+            else if (decision == "exit")
+            {
+                Environment.Exit(0);
+            }
+            else if (decision == "return")
+            {
+                Console.Clear();
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.MenuSelection();
+            }
+        }
+
+        private void UniversalDecimalSeparator()
+        {
             if (firstNumber.Contains("."))
             {
                 numberOne = Convert.ToDouble(firstNumber, DotDecimalSeparator);
@@ -80,52 +137,6 @@ namespace ConsoleApp1
             else
             {
                 numberTwo = Convert.ToDouble(secondNumber, CommaDecimalSeparator);
-            }
-
-            if (operation == "+")
-            {
-                result = numberOne + numberTwo;
-                Console.WriteLine($"{numberOne} + {numberTwo} = {result}");
-            }
-            else if (operation == "-")
-            {
-                result = numberOne - numberTwo;
-                Console.WriteLine($"{numberOne} - {numberTwo} = {result}");
-            }
-            else if (operation == "/")
-            {
-                result = numberOne / numberTwo;
-                Console.WriteLine($"{numberOne} / {numberTwo} = {result}");
-            }
-            else if (operation == "*")
-            {
-                result = numberOne * numberTwo;
-                Console.WriteLine($"{numberOne} * {numberTwo} = {result}");
-            }
-            else if (operation == "%")
-            {
-                result = numberOne / numberTwo * hundredPercent;
-                Console.WriteLine($"{numberOne} составляет {FormattoString(result)}% от числа {numberTwo}");
-            }
-
-            Console.WriteLine("-------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
-            decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-            if (decision == "calculate again")
-            {
-                Console.Clear();
-                Show();
-            }
-            else if (decision == "exit")
-            {
-                Environment.Exit(0);
-            }
-            else if (decision == "return")
-            {
-                Console.Clear();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.ShowMenu();
             }
         }
 
