@@ -15,7 +15,6 @@ namespace ConsoleApp1
         public void ShowMenu()
         {
             Console.WriteLine("Добро пожаловать в универсальный калькулятор!");
-
             ageControl.ShowAgeControl();
             Console.Clear();
             MenuSelection();
@@ -38,19 +37,8 @@ namespace ConsoleApp1
             else if (mainchoice == "2")
             {
                 Console.Clear();
-                Console.WriteLine("На данный момент функционал ограничен.\nДля выхода в главное меню введите \"return\"\nДля выхода из программы введите \"exit\"");
-                decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-                if (decision == "exit")
-                {
-                    Environment.Exit(0);
-                }
-                else if (decision == "return")
-                {
-                    Console.Clear();
-                    MenuSelection();
-                }
-                Console.ReadKey();
+                AgeCalculator ageCalculator = new AgeCalculator();
+                ageCalculator.Show();
             }
             else if (mainchoice == "3")
             {

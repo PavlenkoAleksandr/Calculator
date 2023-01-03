@@ -245,7 +245,6 @@ namespace ConsoleApp1
 
         private void ShowWarning()
         {
-            Console.Clear();
             Console.WriteLine("----------------------------------------");
             Console.WriteLine("Получен неверный ввод! Повторите попытку");
             Console.WriteLine("----------------------------------------");
