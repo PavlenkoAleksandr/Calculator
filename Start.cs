@@ -11,7 +11,7 @@ using System.Web;
 using System.Globalization;
 
 namespace ConsoleApp1
-{ 
+{
     abstract class Start
     {
         static void Main(string[] args)
