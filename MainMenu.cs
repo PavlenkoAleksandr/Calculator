@@ -25,8 +25,6 @@ namespace ConsoleApp1
 
         public void MenuSelection()
         {
-            string decision;
-
             Console.WriteLine("Для выбора приложения введите цифру, которая соответствует нужному пункту в меню.\n1.Простой калькулятор\n2.Калькулятор возраста\n3.Калькулятор налогов");
 
             string mainchoice = userInput.GetUserInput(TypeOfUserInput.number);

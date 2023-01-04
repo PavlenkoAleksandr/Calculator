@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class SimpleCalculator
+    class SimpleCalculator : BaseCalculator
     {
         private string firstNumber;
         private string secondNumber;
@@ -28,7 +28,7 @@ namespace ConsoleApp1
 
         UserInput userInput = new UserInput();
 
-        public void Show()
+        public override void Show()
         {
             Console.WriteLine("Введите первое число");
             firstNumber = userInput.GetUserInput(TypeOfUserInput.number);
@@ -82,33 +82,9 @@ namespace ConsoleApp1
                 result = numberOne / numberTwo * hundredPercent;
                 Console.WriteLine($"{numberOne} составляет {FormattoString(result)}% от числа {numberTwo}");
             }
+            Console.ReadKey();
 
-            Decision();
-        }
-
-        private void Decision()
-        {
-            string decision;
-
-            Console.WriteLine("-------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта введите \"calculate again\"\nДля закрытия калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
-            decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-            if (decision == "calculate again")
-            {
-                Console.Clear();
-                Show();
-            }
-            else if (decision == "exit")
-            {
-                Environment.Exit(0);
-            }
-            else if (decision == "return")
-            {
-                Console.Clear();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.MenuSelection();
-            }
+            base.Decision();
         }
 
         private void UniversalDecimalSeparator()

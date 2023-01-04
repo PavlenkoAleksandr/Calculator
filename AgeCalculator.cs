@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class AgeCalculator
+    class AgeCalculator : BaseCalculator
     {
-        public void Show()
+        UserInput userInput = new UserInput();
+
+        public override void Show()
         {
             AgeFromDate();
         }
@@ -16,8 +18,6 @@ namespace ConsoleApp1
         private void AgeFromDate()
         {
             int daysInYear = 365;
-
-            UserInput userInput = new UserInput();
 
             Console.WriteLine("Укажите дату рождения в формате дд.мм.гггг");
 
@@ -45,26 +45,7 @@ namespace ConsoleApp1
             }
             Console.ReadKey();
 
-            string decision;
-            Console.WriteLine("-------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта введите \"calculate again\"\nДля закрытия калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
-            decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-            if (decision == "calculate again")
-            {
-                Console.Clear();
-                Show();
-            }
-            else if (decision == "exit")
-            {
-                Environment.Exit(0);
-            }
-            else if (decision == "return")
-            {
-                Console.Clear();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.MenuSelection();
-            }
+            base.Decision();
         }
     }
 }

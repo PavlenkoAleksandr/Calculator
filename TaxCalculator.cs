@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class TaxCalculator
+    class TaxCalculator : BaseCalculator
     {
         private decimal incomeDecimal = 0;
         private decimal singleTax = 0;
@@ -18,7 +18,7 @@ namespace ConsoleApp1
 
         UserInput userInput = new UserInput();
 
-        public void Show()
+        public override void Show()
         {
             SelectYearOrMonth();
         }
@@ -151,8 +151,6 @@ namespace ConsoleApp1
 
         private void ShowResult()
         {
-            string decision;
-
             Console.Clear();
             Console.WriteLine($"Вы ввели общую сумму {incomeDecimal} {currencies}");
             Console.WriteLine("-------------------------------------------------------");
@@ -161,24 +159,8 @@ namespace ConsoleApp1
             Console.WriteLine($"Единый социальный вклад:       {FormattoString(singleDeposit)} грн");
             Console.WriteLine($"Ваш доход за вычетом налогов:  {FormattoString(profit)} грн");
             Console.WriteLine("-------------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
-            decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-            if (decision == "calculate again")
-            {
-                Console.Clear();
-                SelectYearOrMonth();
-            }
-            else if (decision == "exit")
-            {
-                Environment.Exit(0);
-            }
-            else if (decision == "return")
-            {
-                Console.Clear();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.MenuSelection();
-            }
+            Console.ReadKey();
+            base.Decision();
         }
 
         string FormattoString(decimal value)
