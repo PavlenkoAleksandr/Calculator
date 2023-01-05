@@ -12,10 +12,10 @@ namespace ConsoleApp1
 
         public override void Show()
         {
-            AgeFromDate();
+            Calculation();
         }
 
-        private void AgeFromDate()
+        private void Calculation()
         {
             int daysInYear = 365;
 
@@ -28,21 +28,25 @@ namespace ConsoleApp1
             
             int numberOfyears = difference.Days / daysInYear;
 
+            //select write() depending on age
             int[] type1 = { 1, 21, 31, 41, 51, 61, 71, 81, 91, 101 };
             int[] type2 = { 2, 3, 4, 22, 23, 24, 32, 33, 34, 42, 43, 44, 52, 53, 54, 52, 53, 54, 62, 63, 64, 72, 73, 74, 82, 83, 84, 92, 93, 94, 102, 103, 104 };
 
+            Console.Write($"Возраст человека, который родился {dateOfUser.ToShortDateString()} составляет {numberOfyears} ");
+
             if (type1.Contains(numberOfyears))
             {
-                Console.WriteLine($"Возраст человека, который родился {dateOfUser.ToShortDateString()} составляет {numberOfyears} год");
+                Console.Write("год");
             }
             else if(type2.Contains(numberOfyears))
             {
-                Console.WriteLine($"Возраст человека, который родился {dateOfUser.ToShortDateString()} составляет {numberOfyears} года");
+                Console.Write("года");
             }
             else
             {
-                Console.WriteLine($"Возраст человека, который родился {dateOfUser.ToShortDateString()} составляет {numberOfyears} лет");
+                Console.Write("лет");
             }
+
             Console.ReadKey();
 
             base.Decision();
