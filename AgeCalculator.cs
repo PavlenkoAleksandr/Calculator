@@ -8,27 +8,30 @@ namespace ConsoleApp1
 {
     class AgeCalculator : BaseCalculator
     {
-        UserInput userInput = new UserInput();
-
-        public override void Show()
+        public override void ShowGreeting()
         {
-            Calculation();
+            Console.WriteLine("---------------------------------------");
+            Console.WriteLine("Добро пожаловать в калькулятор возраста");
+            Console.WriteLine("---------------------------------------");
         }
 
-        private void Calculation()
+        public override void GettingInput()
+        {
+            Console.WriteLine("Укажите дату рождения в формате дд.мм.гггг");
+        }
+
+        public override void Calculation()
         {
             int daysInYear = 365;
-
-            Console.WriteLine("Укажите дату рождения в формате дд.мм.гггг");
 
             string dateString = Console.ReadLine();
             DateTime dateOfUser = DateTime.Parse(dateString);
             DateTime dateTimeNow = DateTime.Today;
             TimeSpan difference = dateTimeNow.Subtract(dateOfUser);
-            
+
             int numberOfyears = difference.Days / daysInYear;
 
-            //select write() depending on age
+            //select Write() depending on age
             int[] type1 = { 1, 21, 31, 41, 51, 61, 71, 81, 91, 101 };
             int[] type2 = { 2, 3, 4, 22, 23, 24, 32, 33, 34, 42, 43, 44, 52, 53, 54, 52, 53, 54, 62, 63, 64, 72, 73, 74, 82, 83, 84, 92, 93, 94, 102, 103, 104 };
 
@@ -36,20 +39,18 @@ namespace ConsoleApp1
 
             if (type1.Contains(numberOfyears))
             {
-                Console.Write("год");
+                Console.WriteLine("год");
             }
-            else if(type2.Contains(numberOfyears))
+            else if (type2.Contains(numberOfyears))
             {
-                Console.Write("года");
+                Console.WriteLine("года");
             }
             else
             {
-                Console.Write("лет");
+                Console.WriteLine("лет");
             }
 
             Console.ReadKey();
-
-            base.Decision();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ConsoleApp1
 
         public void MenuSelection()
         {
-            Console.WriteLine("Для выбора приложения введите цифру, которая соответствует нужному пункту в меню.\n1.Простой калькулятор\n2.Калькулятор возраста\n3.Калькулятор налогов");
+            Console.WriteLine("Для выбора приложения введите цифру, которая соответствует нужному пункту в меню.\n1.Простой калькулятор\n2.Калькулятор возраста\n3.Калькулятор доходов");
 
             string mainchoice = userInput.GetUserInput(TypeOfUserInput.number);
 
@@ -33,19 +33,19 @@ namespace ConsoleApp1
             {
                 Console.Clear();
                 SimpleCalculator simpleCalculator = new SimpleCalculator();
-                simpleCalculator.Show();
+                simpleCalculator.Start();
             }
             else if (mainchoice == "2")
             {
                 Console.Clear();
                 AgeCalculator ageCalculator = new AgeCalculator();
-                ageCalculator.Show();
+                ageCalculator.Start();
             }
             else if (mainchoice == "3")
             {
                 Console.Clear();
                 TaxCalculator taxCalculator = new TaxCalculator();
-                taxCalculator.Show();
+                taxCalculator.Start();
             }
             else
             {

@@ -18,20 +18,17 @@ namespace ConsoleApp1
 
         UserInput userInput = new UserInput();
 
-        public override void Show()
+        public override void ShowGreeting()
+        {
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine("Добро пожаловать в калькулятор доходов");
+            Console.WriteLine("--------------------------------------");
+        }
+
+        public override void GettingInput()
         {
             SelectYearOrMonth();
         }
-
-        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = "."
-        };
-
-        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = ","
-        };
 
         private void SelectYearOrMonth()
         {
@@ -89,7 +86,6 @@ namespace ConsoleApp1
                 fullYearProfit += partOfYearProfit[n];
             }
             incomeDecimal = fullYearProfit;
-            Calculation();
         }
 
         private void SingleMonthProfit()
@@ -111,8 +107,6 @@ namespace ConsoleApp1
             {
                 incomeDecimal = Convert.ToDecimal(fullMonthIncome);
             }
-
-            Calculation();
         }
 
         private void SelectCurrency()
@@ -122,7 +116,7 @@ namespace ConsoleApp1
             currencies = userInput.GetUserInput(TypeOfUserInput.currency);
         }
 
-        private void Calculation()
+        public override void Calculation()
         {
             const decimal exchangeUSD = 37.17m;
             const decimal exchangeEUR = 36.01m;
@@ -146,10 +140,10 @@ namespace ConsoleApp1
             singleTax = incomeAfterExchange * singleTaxRate;
             singleDeposit = minProfit * singleDepositRate;
             profit = incomeAfterExchange - singleTax - singleDeposit;
-            ShowResult();
+            ShowResults();
         }
 
-        private void ShowResult()
+        private void ShowResults()
         {
             Console.Clear();
             Console.WriteLine($"Вы ввели общую сумму {incomeDecimal} {currencies}");
@@ -160,8 +154,17 @@ namespace ConsoleApp1
             Console.WriteLine($"Ваш доход за вычетом налогов:  {FormattoString(profit)} грн");
             Console.WriteLine("-------------------------------------------------------");
             Console.ReadKey();
-            base.Decision();
         }
+
+        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = "."
+        };
+
+        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = ","
+        };
 
         string FormattoString(decimal value)
         {

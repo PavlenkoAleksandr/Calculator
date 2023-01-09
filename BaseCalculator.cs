@@ -9,21 +9,34 @@ namespace ConsoleApp1
     public abstract class BaseCalculator
     {
         UserInput userInput = new UserInput();
-
-        public abstract void Show();
         
-        public void Decision()
+        public void Start()
+        {
+            ShowGreeting();
+            GettingInput();
+            Calculation();
+            Decision();
+        }
+
+        public abstract void ShowGreeting();
+        
+        public abstract void GettingInput();
+
+        public abstract void Calculation();
+
+        private void Decision()
         {
             string decision;
 
             Console.WriteLine("-------------------------------------------------");
             Console.WriteLine("Для повторного подсчёта введите \"calculate again\"\nДля закрытия калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
+            Console.WriteLine("-------------------------------------------------");
             decision = userInput.GetUserInput(TypeOfUserInput.command);
 
             if (decision == "calculate again")
             {
                 Console.Clear();
-                Show();
+                Start();
             }
             else if (decision == "exit")
             {

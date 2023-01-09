@@ -16,19 +16,16 @@ namespace ConsoleApp1
         private double numberTwo;
         private double result;
 
-        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = "."
-        };
-
-        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = ","
-        };
-
         UserInput userInput = new UserInput();
 
-        public override void Show()
+        public override void ShowGreeting()
+        {
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine("Добро пожаловать в простой калькулятор");
+            Console.WriteLine("--------------------------------------");
+        }
+
+        public override void GettingInput()
         {
             Console.WriteLine("Введите первое число");
             firstNumber = userInput.GetUserInput(TypeOfUserInput.number);
@@ -47,11 +44,9 @@ namespace ConsoleApp1
             Console.WriteLine("Введите второе число");
             secondNumber = userInput.GetUserInput(TypeOfUserInput.number);
             Console.Clear();
-
-            Calculation();
         }
 
-        private void Calculation()
+        public override void Calculation()
         {
             int hundredPercent = 100;
 
@@ -82,10 +77,19 @@ namespace ConsoleApp1
                 result = numberOne / numberTwo * hundredPercent;
                 Console.WriteLine($"{numberOne} составляет {FormattoString(result)}% от числа {numberTwo}");
             }
-            Console.ReadKey();
 
-            base.Decision();
+            Console.ReadKey();
         }
+
+        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = "."
+        };
+
+        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = ","
+        };
 
         private void UniversalDecimalSeparator()
         {
