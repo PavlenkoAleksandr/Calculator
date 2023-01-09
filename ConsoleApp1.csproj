@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AgeCalculator.cs" />
     <Compile Include="AgeControl.cs" />
+    <Compile Include="BaseCalculator.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="SimpleCalculator.cs" />

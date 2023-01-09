@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class TaxCalculator
+    class TaxCalculator : BaseCalculator
     {
         private decimal incomeDecimal = 0;
         private decimal singleTax = 0;
@@ -18,20 +18,17 @@ namespace ConsoleApp1
 
         UserInput userInput = new UserInput();
 
-        public void Show()
+        public override void ShowGreeting()
+        {
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine("Добро пожаловать в калькулятор доходов");
+            Console.WriteLine("--------------------------------------");
+        }
+
+        public override void GettingInput()
         {
             SelectYearOrMonth();
         }
-
-        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = "."
-        };
-
-        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = ","
-        };
 
         private void SelectYearOrMonth()
         {
@@ -89,7 +86,6 @@ namespace ConsoleApp1
                 fullYearProfit += partOfYearProfit[n];
             }
             incomeDecimal = fullYearProfit;
-            Calculation();
         }
 
         private void SingleMonthProfit()
@@ -111,8 +107,6 @@ namespace ConsoleApp1
             {
                 incomeDecimal = Convert.ToDecimal(fullMonthIncome);
             }
-
-            Calculation();
         }
 
         private void SelectCurrency()
@@ -122,7 +116,7 @@ namespace ConsoleApp1
             currencies = userInput.GetUserInput(TypeOfUserInput.currency);
         }
 
-        private void Calculation()
+        public override void Calculation()
         {
             const decimal exchangeUSD = 37.17m;
             const decimal exchangeEUR = 36.01m;
@@ -146,13 +140,11 @@ namespace ConsoleApp1
             singleTax = incomeAfterExchange * singleTaxRate;
             singleDeposit = minProfit * singleDepositRate;
             profit = incomeAfterExchange - singleTax - singleDeposit;
-            ShowResult();
+            ShowResults();
         }
 
-        private void ShowResult()
+        private void ShowResults()
         {
-            string decision;
-
             Console.Clear();
             Console.WriteLine($"Вы ввели общую сумму {incomeDecimal} {currencies}");
             Console.WriteLine("-------------------------------------------------------");
@@ -161,25 +153,18 @@ namespace ConsoleApp1
             Console.WriteLine($"Единый социальный вклад:       {FormattoString(singleDeposit)} грн");
             Console.WriteLine($"Ваш доход за вычетом налогов:  {FormattoString(profit)} грн");
             Console.WriteLine("-------------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
-            decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-            if (decision == "calculate again")
-            {
-                Console.Clear();
-                SelectYearOrMonth();
-            }
-            else if (decision == "exit")
-            {
-                Environment.Exit(0);
-            }
-            else if (decision == "return")
-            {
-                Console.Clear();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.MenuSelection();
-            }
+            Console.ReadKey();
         }
+
+        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = "."
+        };
+
+        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = ","
+        };
 
         string FormattoString(decimal value)
         {
