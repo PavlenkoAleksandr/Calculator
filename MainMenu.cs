@@ -32,19 +32,19 @@ namespace ConsoleApp1
             if (mainchoice == "1")
             {
                 Console.Clear();
-                SimpleCalculator simpleCalculator = new SimpleCalculator();
+                SimpleCalculator simpleCalculator = new SimpleCalculator("простой калькулятор");
                 simpleCalculator.Start();
             }
             else if (mainchoice == "2")
             {
                 Console.Clear();
-                AgeCalculator ageCalculator = new AgeCalculator();
+                AgeCalculator ageCalculator = new AgeCalculator("калькулятор возраста");
                 ageCalculator.Start();
             }
             else if (mainchoice == "3")
             {
                 Console.Clear();
-                TaxCalculator taxCalculator = new TaxCalculator();
+                TaxCalculator taxCalculator = new TaxCalculator("калькулятор доходов");
                 taxCalculator.Start();
             }
             else

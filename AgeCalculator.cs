@@ -8,11 +8,8 @@ namespace ConsoleApp1
 {
     class AgeCalculator : BaseCalculator
     {
-        public override void ShowGreeting()
+        public AgeCalculator(string name) : base(name)
         {
-            Console.WriteLine("---------------------------------------");
-            Console.WriteLine("Добро пожаловать в калькулятор возраста");
-            Console.WriteLine("---------------------------------------");
         }
 
         public override void GettingInput()

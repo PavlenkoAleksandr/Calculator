@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class TaxCalculator : BaseCalculator
+    public class TaxCalculator : BaseCalculator
     {
         private decimal incomeDecimal = 0;
         private decimal singleTax = 0;
@@ -18,11 +18,8 @@ namespace ConsoleApp1
 
         UserInput userInput = new UserInput();
 
-        public override void ShowGreeting()
+        public TaxCalculator(string name) : base(name)
         {
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine("Добро пожаловать в калькулятор доходов");
-            Console.WriteLine("--------------------------------------");
         }
 
         public override void GettingInput()

@@ -18,11 +18,8 @@ namespace ConsoleApp1
 
         UserInput userInput = new UserInput();
 
-        public override void ShowGreeting()
+        public SimpleCalculator(string name) : base(name)
         {
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine("Добро пожаловать в простой калькулятор");
-            Console.WriteLine("--------------------------------------");
         }
 
         public override void GettingInput()

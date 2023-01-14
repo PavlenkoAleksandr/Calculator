@@ -9,7 +9,13 @@ namespace ConsoleApp1
     public abstract class BaseCalculator
     {
         UserInput userInput = new UserInput();
-        
+        private string name;
+
+        public BaseCalculator(string name)
+        {
+            this.name = name;
+        }
+
         public void Start()
         {
             ShowGreeting();
@@ -18,7 +24,10 @@ namespace ConsoleApp1
             Decision();
         }
 
-        public abstract void ShowGreeting();
+        public virtual void ShowGreeting()
+        {
+            Console.WriteLine($"Вы выбрали {name}.");
+        }
         
         public abstract void GettingInput();
 
