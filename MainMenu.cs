@@ -15,7 +15,7 @@ namespace ConsoleApp1
         public void ShowMenu()
         {
             Console.WriteLine("Добро пожаловать в универсальный калькулятор!");
-            Console.WriteLine("Нажмите ввод для продолжения");
+            Console.WriteLine("Нажмите любую кнопку, чтобы продолжить");
             Console.ReadKey();
             Console.Clear();
             ageControl.ShowAgeControl();

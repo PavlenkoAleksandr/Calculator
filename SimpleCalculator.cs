@@ -75,6 +75,7 @@ namespace ConsoleApp1
                 Console.WriteLine($"{numberOne} составляет {FormattoString(result)}% от числа {numberTwo}");
             }
 
+            Console.WriteLine("Нажмите любую кнопку, чтобы продолжить");
             Console.ReadKey();
         }
 

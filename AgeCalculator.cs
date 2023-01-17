@@ -47,6 +47,7 @@ namespace ConsoleApp1
                 Console.WriteLine("лет");
             }
 
+            Console.WriteLine("Нажмите любую кнопку, чтобы продолжить");
             Console.ReadKey();
         }
     }

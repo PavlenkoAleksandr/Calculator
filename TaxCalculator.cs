@@ -9,11 +9,11 @@ namespace ConsoleApp1
 {
     public class TaxCalculator : BaseCalculator
     {
-        private decimal incomeDecimal = 0;
-        private decimal singleTax = 0;
-        private decimal singleDeposit = 0;
-        private decimal profit = 0;
-        private decimal incomeAfterExchange = 0;
+        private decimal incomeDecimal;
+        private decimal singleTax;
+        private decimal singleDeposit;
+        private decimal profit;
+        private decimal incomeAfterExchange;
         private string currencies;
 
         UserInput userInput = new UserInput();
@@ -24,15 +24,9 @@ namespace ConsoleApp1
 
         public override void GettingInput()
         {
-            SelectYearOrMonth();
-        }
-
-        private void SelectYearOrMonth()
-        {
             string choice;
 
-            Console.Clear();
-            Console.WriteLine("Выберите интересующий вас калькулятор\n1 - для подсчёта месячного дохода\n2 - для посчёта годового дохода");
+            Console.WriteLine("Введите:\n1 - для подсчёта месячного дохода\n2 - для посчёта годового дохода");
             choice = userInput.GetUserInput(TypeOfUserInput.number);
 
             if (choice == "1")
@@ -48,7 +42,7 @@ namespace ConsoleApp1
                 Console.Clear();
                 Console.WriteLine("Калькулятор не выбран, попробуйте снова");
                 Console.ReadLine();
-                SelectYearOrMonth();
+                GettingInput();
             }
         }
 
@@ -150,6 +144,7 @@ namespace ConsoleApp1
             Console.WriteLine($"Единый социальный вклад:       {FormattoString(singleDeposit)} грн");
             Console.WriteLine($"Ваш доход за вычетом налогов:  {FormattoString(profit)} грн");
             Console.WriteLine("-------------------------------------------------------");
+            Console.WriteLine("Нажмите любую кнопку, чтобы продолжить");
             Console.ReadKey();
         }
 
