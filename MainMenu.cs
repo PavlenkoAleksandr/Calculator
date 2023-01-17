@@ -15,7 +15,7 @@ namespace ConsoleApp1
         public void ShowMenu()
         {
             Console.WriteLine("Добро пожаловать в универсальный калькулятор!");
-            Console.WriteLine("Нажмите ввод для продолжения");
+            Console.WriteLine("Нажмите любую кнопку, чтобы продолжить");
             Console.ReadKey();
             Console.Clear();
             ageControl.ShowAgeControl();
@@ -25,29 +25,27 @@ namespace ConsoleApp1
 
         public void MenuSelection()
         {
-            string decision;
-
-            Console.WriteLine("Для выбора приложения введите цифру, которая соответствует нужному пункту в меню.\n1.Простой калькулятор\n2.Калькулятор возраста\n3.Калькулятор налогов");
+            Console.WriteLine("Для выбора приложения введите цифру, которая соответствует нужному пункту в меню.\n1.Простой калькулятор\n2.Калькулятор возраста\n3.Калькулятор доходов");
 
             string mainchoice = userInput.GetUserInput(TypeOfUserInput.number);
 
             if (mainchoice == "1")
             {
                 Console.Clear();
-                SimpleCalculator simpleCalculator = new SimpleCalculator();
-                simpleCalculator.Show();
+                SimpleCalculator simpleCalculator = new SimpleCalculator("простой калькулятор");
+                simpleCalculator.Start();
             }
             else if (mainchoice == "2")
             {
                 Console.Clear();
-                AgeCalculator ageCalculator = new AgeCalculator();
-                ageCalculator.Show();
+                AgeCalculator ageCalculator = new AgeCalculator("калькулятор возраста");
+                ageCalculator.Start();
             }
             else if (mainchoice == "3")
             {
                 Console.Clear();
-                TaxCalculator taxCalculator = new TaxCalculator();
-                taxCalculator.Show();
+                TaxCalculator taxCalculator = new TaxCalculator("калькулятор доходов");
+                taxCalculator.Start();
             }
             else
             {

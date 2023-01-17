@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class SimpleCalculator
+    class SimpleCalculator : BaseCalculator
     {
         private string firstNumber;
         private string secondNumber;
@@ -16,19 +16,13 @@ namespace ConsoleApp1
         private double numberTwo;
         private double result;
 
-        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = "."
-        };
-
-        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = ","
-        };
-
         UserInput userInput = new UserInput();
 
-        public void Show()
+        public SimpleCalculator(string name) : base(name)
+        {
+        }
+
+        public override void GettingInput()
         {
             Console.WriteLine("Введите первое число");
             firstNumber = userInput.GetUserInput(TypeOfUserInput.number);
@@ -47,11 +41,9 @@ namespace ConsoleApp1
             Console.WriteLine("Введите второе число");
             secondNumber = userInput.GetUserInput(TypeOfUserInput.number);
             Console.Clear();
-
-            Calculation();
         }
 
-        private void Calculation()
+        public override void Calculation()
         {
             int hundredPercent = 100;
 
@@ -83,33 +75,19 @@ namespace ConsoleApp1
                 Console.WriteLine($"{numberOne} составляет {FormattoString(result)}% от числа {numberTwo}");
             }
 
-            Decision();
+            Console.WriteLine("Нажмите любую кнопку, чтобы продолжить");
+            Console.ReadKey();
         }
 
-        private void Decision()
+        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
         {
-            string decision;
+            NumberDecimalSeparator = "."
+        };
 
-            Console.WriteLine("-------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта введите \"calculate again\"\nДля закрытия калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
-            decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-            if (decision == "calculate again")
-            {
-                Console.Clear();
-                Show();
-            }
-            else if (decision == "exit")
-            {
-                Environment.Exit(0);
-            }
-            else if (decision == "return")
-            {
-                Console.Clear();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.MenuSelection();
-            }
-        }
+        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = ","
+        };
 
         private void UniversalDecimalSeparator()
         {

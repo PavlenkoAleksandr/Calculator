@@ -7,38 +7,26 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class TaxCalculator
+    public class TaxCalculator : BaseCalculator
     {
-        private decimal incomeDecimal = 0;
-        private decimal singleTax = 0;
-        private decimal singleDeposit = 0;
-        private decimal profit = 0;
-        private decimal incomeAfterExchange = 0;
+        private decimal incomeDecimal;
+        private decimal singleTax;
+        private decimal singleDeposit;
+        private decimal profit;
+        private decimal incomeAfterExchange;
         private string currencies;
 
         UserInput userInput = new UserInput();
 
-        public void Show()
+        public TaxCalculator(string name) : base(name)
         {
-            SelectYearOrMonth();
         }
 
-        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = "."
-        };
-
-        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
-        {
-            NumberDecimalSeparator = ","
-        };
-
-        private void SelectYearOrMonth()
+        public override void GettingInput()
         {
             string choice;
 
-            Console.Clear();
-            Console.WriteLine("Выберите интересующий вас калькулятор\n1 - для подсчёта месячного дохода\n2 - для посчёта годового дохода");
+            Console.WriteLine("Введите:\n1 - для подсчёта месячного дохода\n2 - для посчёта годового дохода");
             choice = userInput.GetUserInput(TypeOfUserInput.number);
 
             if (choice == "1")
@@ -54,7 +42,7 @@ namespace ConsoleApp1
                 Console.Clear();
                 Console.WriteLine("Калькулятор не выбран, попробуйте снова");
                 Console.ReadLine();
-                SelectYearOrMonth();
+                GettingInput();
             }
         }
 
@@ -89,7 +77,6 @@ namespace ConsoleApp1
                 fullYearProfit += partOfYearProfit[n];
             }
             incomeDecimal = fullYearProfit;
-            Calculation();
         }
 
         private void SingleMonthProfit()
@@ -111,8 +98,6 @@ namespace ConsoleApp1
             {
                 incomeDecimal = Convert.ToDecimal(fullMonthIncome);
             }
-
-            Calculation();
         }
 
         private void SelectCurrency()
@@ -122,7 +107,7 @@ namespace ConsoleApp1
             currencies = userInput.GetUserInput(TypeOfUserInput.currency);
         }
 
-        private void Calculation()
+        public override void Calculation()
         {
             const decimal exchangeUSD = 37.17m;
             const decimal exchangeEUR = 36.01m;
@@ -146,13 +131,11 @@ namespace ConsoleApp1
             singleTax = incomeAfterExchange * singleTaxRate;
             singleDeposit = minProfit * singleDepositRate;
             profit = incomeAfterExchange - singleTax - singleDeposit;
-            ShowResult();
+            ShowResults();
         }
 
-        private void ShowResult()
+        private void ShowResults()
         {
-            string decision;
-
             Console.Clear();
             Console.WriteLine($"Вы ввели общую сумму {incomeDecimal} {currencies}");
             Console.WriteLine("-------------------------------------------------------");
@@ -161,25 +144,19 @@ namespace ConsoleApp1
             Console.WriteLine($"Единый социальный вклад:       {FormattoString(singleDeposit)} грн");
             Console.WriteLine($"Ваш доход за вычетом налогов:  {FormattoString(profit)} грн");
             Console.WriteLine("-------------------------------------------------------");
-            Console.WriteLine("Для повторного подсчёта налогов введите \"calculate again\"\nДля выхода из калькулятора введите \"exit\"\nДля выхода в главное меню введите \"return\"");
-            decision = userInput.GetUserInput(TypeOfUserInput.command);
-
-            if (decision == "calculate again")
-            {
-                Console.Clear();
-                SelectYearOrMonth();
-            }
-            else if (decision == "exit")
-            {
-                Environment.Exit(0);
-            }
-            else if (decision == "return")
-            {
-                Console.Clear();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.MenuSelection();
-            }
+            Console.WriteLine("Нажмите любую кнопку, чтобы продолжить");
+            Console.ReadKey();
         }
+
+        NumberFormatInfo DotDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = "."
+        };
+
+        NumberFormatInfo CommaDecimalSeparator = new NumberFormatInfo()
+        {
+            NumberDecimalSeparator = ","
+        };
 
         string FormattoString(decimal value)
         {
