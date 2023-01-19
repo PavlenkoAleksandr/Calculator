@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public abstract class BaseCalculator
+    public abstract class BaseCalculator : ICalculator
     {
         UserInput userInput = new UserInput();
         private string name;
@@ -33,7 +33,7 @@ namespace ConsoleApp1
 
         public abstract void Calculation();
 
-        private void Decision()
+        public void Decision()
         {
             string decision;
 
